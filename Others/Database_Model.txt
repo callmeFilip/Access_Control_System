@@ -1,0 +1,17 @@
+Базата данни трябва да съдържа следната информация:
+
+Check-in attempt table:
+attemp_id (int, pk)
+card_uid (int, fk)
+date (date)
+hour (int)
+minute (int)
+device_name (string) (device that sent the checked-in data)
+is successful (boolean)
+
+
+card table:
+card_uid (int, pk)
+associated_name (string)
+associated_phone_number (string/phone)
+granted_access_level (int)
