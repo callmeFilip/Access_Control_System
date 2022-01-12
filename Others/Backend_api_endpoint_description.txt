@@ -1,0 +1,9 @@
+Това ще са endpoint-ите ако преценя, че ще използвам такъв подход
+Цялата информация прекарвана през мрежата е в JSON формат
+GET localhost:port/api/employee/ показва check-in attempt таблицата
+GET localhost:port/api/employee/{uid} показва всички check-in опити, направени от човека с uid
+GET localhost:port/api/employee/{uid}?begin_date={date}&end_date={date} показва check-in опити, пресмята работно време и показва и него, 
+направени от човека с uid от begin_date до end_date
+POST localhost:port/api/employee/ ще добавя нов служител в базата данни
+PUT localhost:port/api/employee/{uid}?data={data} ще обновява информацията за човека с uid
+DELETE localhost:port/api/employee/{uid} ще премахва човека с uid от базата данни
