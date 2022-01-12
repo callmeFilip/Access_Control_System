@@ -7,7 +7,7 @@ date (date)
 hour (int)
 minute (int)
 device_name (string) (device that sent the checked-in data)
-is successful (boolean)
+status code (int) (statuses could be granted, denied, unknown card, etc..)
 
 
 card table:
