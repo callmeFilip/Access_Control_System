@@ -13,7 +13,7 @@ private:
     const std::string filename;
 
 public:
-    IOManager(const std::string &file) : available(IO_AVAILABLE), stream(), filename(file) {}
+    IOManager(const std::string &file);
     int write(const std::string &data);
     int read(std::string &result);
 }; // IOManager

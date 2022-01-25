@@ -2,6 +2,19 @@
 #include <fstream>
 #include <string>
 
+/**
+ * @brief Construct a new IOManager::IOManager object
+ *
+ * @param file Name of file to be written or read from
+ */
+IOManager::IOManager(const std::string &file) : available(IO_AVAILABLE), stream(), filename(file) {}
+
+/**
+ * @brief Thread safe method responsible for writing data to file
+ *
+ * @param data String with data to be written
+ * @return int
+ */
 int IOManager::write(const std::string &data)
 {
     if (available == IO_AVAILABLE) // check for concurrency
@@ -18,6 +31,12 @@ int IOManager::write(const std::string &data)
     return available;
 }
 
+/**
+ * @brief Thread safe method responsible for reading data to file
+ *
+ * @param result String data passed by reference. The result is saved in it
+ * @return int
+ */
 int IOManager::read(std::string &result)
 {
     if (available == IO_AVAILABLE)
