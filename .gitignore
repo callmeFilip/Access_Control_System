@@ -1,1 +1,4 @@
 *.drawio
+*.exe
+*.txt
+*/.vscode
