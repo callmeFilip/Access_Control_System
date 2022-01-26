@@ -1,10 +1,11 @@
+#ifndef IOMANAGER_H
+#define IOMANAGER_H
+
 #include <fstream>
 #include <string>
 /**
  * @brief IOManager is responsible for all the input/output to files
  */
-static const int IO_AVAILABLE = 1;
-static const int IO_BUSY = 0;
 class IOManager
 {
 private:
@@ -18,4 +19,6 @@ public:
 
     int write(const std::string &data);
     int read(std::string &result);
-}; // IOManager
+};
+
+#endif // IOManager
