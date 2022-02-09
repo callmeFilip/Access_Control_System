@@ -40,15 +40,15 @@ public:
     virtual ~GPIO() = 0; // pure destructor
 
 protected:
-    int setDirection(GPIO_DIRECTION);
+    int setDirection(const GPIO_DIRECTION &);
     GPIO_DIRECTION getDirection();
 
-    int setValue(GPIO_VALUE);
+    int setValue(const GPIO_VALUE &);
     GPIO_VALUE getValue();
 
     int getNumber() const { return m_gpio_number; }
 
-    virtual int log(const std::string msg) const;
+    virtual int log(const std::string &msg) const;
 };
 
 #endif // GPIO

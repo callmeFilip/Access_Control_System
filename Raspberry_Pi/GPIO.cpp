@@ -90,7 +90,7 @@ int GPIO::unexportGPIO() const
  * @param msg Message to log
  * @return int 
  */
-int GPIO::log(const std::string msg) const
+int GPIO::log(const std::string &msg) const
 {
     return m_IO_manager->write(msg);
 }
@@ -101,7 +101,7 @@ int GPIO::log(const std::string msg) const
  * @param direction GPIO direction
  * @return int 
  */
-int GPIO::setDirection(GPIO_DIRECTION direction)
+int GPIO::setDirection(const GPIO_DIRECTION &direction)
 {
     m_direction = direction;
 
@@ -114,7 +114,7 @@ int GPIO::setDirection(GPIO_DIRECTION direction)
  * @param value GPIO value
  * @return int 
  */
-int GPIO::setValue(GPIO_VALUE value)
+int GPIO::setValue(const GPIO_VALUE &value)
 {
     if (m_direction != GPIO_DIRECTION::OUTPUT)
     {
