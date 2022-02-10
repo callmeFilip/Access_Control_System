@@ -9,9 +9,9 @@
  * Init mutex
  * @param file Name of file to be written or read from
  */
-IOManager::IOManager(const std::string &file) : stream(), filename(file)
+IOManager::IOManager(const std::string &filename) : m_stream(), m_filename(filename)
 {
-    pthread_mutex_init(&lock, NULL);
+    pthread_mutex_init(&m_lock, NULL);
 }
 
 /**
@@ -20,7 +20,7 @@ IOManager::IOManager(const std::string &file) : stream(), filename(file)
  */
 IOManager::~IOManager()
 {
-    pthread_mutex_destroy(&lock);
+    pthread_mutex_destroy(&m_lock);
 }
 
 /**
@@ -31,13 +31,13 @@ IOManager::~IOManager()
  */
 int IOManager::write(const std::string &data)
 {
-    pthread_mutex_lock(&lock); // lock thread
+    pthread_mutex_lock(&m_lock); // lock thread
 
-    stream.open(filename, std::fstream::out | std::fstream::app); // open stream
-    stream << data << std::endl;                                  // write to stream
-    stream.close();                                               // close stream
+    m_stream.open(m_filename, std::fstream::out | std::fstream::app); // open stream
+    m_stream << data << std::endl;                                    // write to stream
+    m_stream.close();                                                 // close stream
 
-    pthread_mutex_unlock(&lock); // unlock thread
+    pthread_mutex_unlock(&m_lock); // unlock thread
 
     return 1;
 }
@@ -50,17 +50,17 @@ int IOManager::write(const std::string &data)
  */
 int IOManager::read(std::string &result)
 {
-    pthread_mutex_lock(&lock); // lock thread
+    pthread_mutex_lock(&m_lock); // lock thread
 
-    stream.open(filename, std::fstream::in); // open stream
-    std::string buffer = "";                 // create buffer variable
-    while (getline(stream, buffer))          // get each line
+    m_stream.open(m_filename, std::fstream::in); // open stream
+    std::string buffer = "";                     // create buffer variable
+    while (getline(m_stream, buffer))            // get each line
     {
         result.append(buffer + "\n"); // append each line to buffer
     }
-    stream.close(); // close stream
+    m_stream.close(); // close stream
 
-    pthread_mutex_unlock(&lock); // unlock thread
+    pthread_mutex_unlock(&m_lock); // unlock thread
 
     return 1;
 }
