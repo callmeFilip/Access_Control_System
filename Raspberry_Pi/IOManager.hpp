@@ -9,12 +9,12 @@
 class IOManager
 {
 private:
-    std::fstream stream;
-    const std::string filename;
-    pthread_mutex_t lock;
+    std::fstream m_stream;
+    const std::string m_filename;
+    pthread_mutex_t m_lock;
 
 public:
-    IOManager(const std::string &file);
+    IOManager(const std::string &filename);
     ~IOManager();
 
     int write(const std::string &data);
