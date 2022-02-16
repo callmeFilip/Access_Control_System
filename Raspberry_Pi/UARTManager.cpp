@@ -66,21 +66,16 @@ int UARTManager::openConnection(const std::string &bus_path)
     struct termios options;
     tcgetattr(m_bus_file_descriptor, &options); // Copy file options
 
-    options.c_cflag = B115200 | CS8 | CREAD | CLOCAL; // Baudrate 115200, 8 bit word
-    options.c_iflag = IGNPAR | ICRNL;                 // Ignore framing and parity errors, Translate carriage
-                                                      // return to newline on input
+    options.c_cflag = B115200 | CS8 | CREAD | CLOCAL; // Baudrate 115200, 8 bit word, enable read, disable model-specific signal, disable parity
+    // options.c_cflag &= ~PARENB; // disable paring bit
+    options.c_iflag = IGNPAR | ICRNL; // Ignore framing and parity errors, Translate carriage
+                                      // return to newline on input
 
     tcflush(m_bus_file_descriptor, TCIFLUSH);            // Flush recieved data that is not read
     fcntl(STDIN_FILENO, F_SETFL, O_NONBLOCK);            // Make reads non-blocking
     tcsetattr(m_bus_file_descriptor, TCSANOW, &options); // Set attributes immediately
 
     m_is_open = true;
-
-    if (write(m_bus_file_descriptor, "0", 1) < 0)
-    {
-        log("UART failed to open stream");
-        return 1;
-    }
 
     return 0;
 }
