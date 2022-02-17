@@ -21,6 +21,8 @@ private:
     bool m_is_connected;
     IOManager *const m_IO_manager;
 
+    int log(const std::string &msg) const;
+
 public:
     ClientSocket(const std::string &server_name, int port_number, IOManager *IO_manager);
     ~ClientSocket();
@@ -32,8 +34,6 @@ public:
     std::string recieve(const int size) const;
 
     bool isConnected() const { return m_is_connected; }
-
-    int log(const std::string &msg) const;
 };
 
 #endif // ClientSocket
