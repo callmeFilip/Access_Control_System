@@ -7,9 +7,9 @@
 
 /**
  * @brief Construct a new UARTManager::UARTManager object
- * 
+ *
  * @param bus_path File path to device
- * @param IO_manager IO_manager instance responsible for logging 
+ * @param IO_manager IO_manager instance responsible for logging
  */
 UARTManager::UARTManager(const std::string &bus_path, IOManager *IO_manager)
     : m_bus_file_descriptor(-1), m_IO_manager(IO_manager), m_is_open(false)
@@ -42,9 +42,9 @@ UARTManager::~UARTManager()
 
 /**
  * @brief Open connection to UART device
- * 
+ *
  * @param bus_path File path to device
- * @return int 
+ * @return int
  */
 int UARTManager::openConnection(const std::string &bus_path)
 {
@@ -66,7 +66,7 @@ int UARTManager::openConnection(const std::string &bus_path)
     struct termios options;
     tcgetattr(m_bus_file_descriptor, &options); // Copy file options
 
-    options.c_cflag = B115200 | CS8 | CREAD | CLOCAL; // Baudrate 115200, 8 bit word, enable read, disable model-specific signal, disable parity
+    options.c_cflag = B9600 | CS8 | CREAD | CLOCAL; // Baudrate 9600(NPN532 default), 8 bit word, enable read, disable model-specific signal, disable parity
     // options.c_cflag &= ~PARENB; // disable paring bit
     options.c_iflag = IGNPAR | ICRNL; // Ignore framing and parity errors, Translate carriage
                                       // return to newline on input
@@ -82,8 +82,8 @@ int UARTManager::openConnection(const std::string &bus_path)
 
 /**
  * @brief Close connection to UART device
- * 
- * @return int 
+ *
+ * @return int
  */
 int UARTManager::closeConnection()
 {
@@ -106,10 +106,10 @@ int UARTManager::closeConnection()
 
 /**
  * @brief Write to bus file descriptor
- * 
+ *
  * @param data Data to write
  * @param length Length of data
- * @return int 
+ * @return int
  */
 int UARTManager::transmit(const char *data, size_t length = 1) const
 {
@@ -134,10 +134,10 @@ int UARTManager::transmit(const char *data, size_t length = 1) const
 
 /**
  * @brief Read data from file descriptor and return it
- * 
+ *
  * @param result Saves result to buffer
  * @param length Size of bytes to recieve
- * @return int 
+ * @return int
  */
 int UARTManager::recieve(char *result, size_t length = 1) const
 {
@@ -161,9 +161,9 @@ int UARTManager::recieve(char *result, size_t length = 1) const
 
 /**
  * @brief Logging data to log.txt
- * 
+ *
  * @param msg Message to log
- * @return int 
+ * @return int
  */
 int UARTManager::log(const std::string &msg) const
 {
