@@ -27,7 +27,7 @@ private:
     const int m_gpio_number;
     GPIO_DIRECTION m_direction;
     GPIO_VALUE m_value;
-    IOManager *const m_IO_manager;
+    IOManager &m_IO_manager;
 
     int exportGPIO() const;
     int unexportGPIO() const;
@@ -36,7 +36,7 @@ private:
 
 protected:
     // TODO INIT GPIO CONSTRUCTOR AND DESTRUCTOR IN LOCK AND LED!!!
-    GPIO(int gpio_number, IOManager *IO_manager);
+    GPIO(int gpio_number, IOManager &IO_manager);
     virtual ~GPIO() = 0; // pure destructor
 
     int setDirection(const GPIO_DIRECTION &);
