@@ -9,7 +9,7 @@ class UARTManager
 {
 private:
     int m_bus_file_descriptor;
-    IOManager *const m_IO_manager;
+    IOManager &m_IO_manager;
     bool m_is_open;
 
     int log(const std::string &msg) const;
@@ -17,7 +17,7 @@ private:
     int closeConnection();
 
 public:
-    UARTManager(const std::string &bus_path, IOManager *);
+    UARTManager(const std::string &bus_path, IOManager &IO_manager);
     ~UARTManager();
 
     int transmit(const char *data, size_t length) const;
