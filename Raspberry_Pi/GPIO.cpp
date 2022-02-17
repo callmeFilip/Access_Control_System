@@ -7,12 +7,12 @@
  * @brief Construct a new GPIO::GPIO object
  * Calls export and logs the results. Default state
  * of GPIO is input
- * 
+ *
  * @param gpio_number Number of gpio
  * @param direction Direction of gpio
  * @param IO_manager IO_manager instance responsible for logging
  */
-GPIO::GPIO(int gpio_number, IOManager *IO_manager)
+GPIO::GPIO(int gpio_number, IOManager &IO_manager)
     : m_gpio_number(gpio_number), m_direction(GPIO_DIRECTION::GPIO_DIRECTION_UNKNOWN),
       m_value(GPIO_VALUE::GPIO_VALUE_UNKNOWN), m_IO_manager(IO_manager)
 {
@@ -45,8 +45,8 @@ GPIO::~GPIO()
 
 /**
  * @brief Exports the GPIO pin via Linux filesystem
- * 
- * @return int 
+ *
+ * @return int
  */
 int GPIO::exportGPIO() const
 {
@@ -65,8 +65,8 @@ int GPIO::exportGPIO() const
 
 /**
  * @brief Unexports the GPIO pin via Linux filesystem
- * 
- * @return int 
+ *
+ * @return int
  */
 int GPIO::unexportGPIO() const
 {
@@ -86,20 +86,20 @@ int GPIO::unexportGPIO() const
 
 /**
  * @brief Logging data to log.txt
- * 
+ *
  * @param msg Message to log
- * @return int 
+ * @return int
  */
 int GPIO::log(const std::string &msg) const
 {
-    return m_IO_manager->write(msg);
+    return m_IO_manager.write(msg);
 }
 
 /**
  * @brief Set direction to GPIO pin
- * 
+ *
  * @param direction GPIO direction
- * @return int 
+ * @return int
  */
 int GPIO::setDirection(const GPIO_DIRECTION &direction)
 {
@@ -110,9 +110,9 @@ int GPIO::setDirection(const GPIO_DIRECTION &direction)
 
 /**
  * @brief Set value to GPIO pin
- * 
+ *
  * @param value GPIO value
- * @return int 
+ * @return int
  */
 int GPIO::setValue(const GPIO_VALUE &value)
 {
@@ -129,8 +129,8 @@ int GPIO::setValue(const GPIO_VALUE &value)
 
 /**
  * @brief Write direction to GPIO pin via Linux filesystem
- * 
- * @return int 
+ *
+ * @return int
  */
 int GPIO::writeDirection() const
 {
@@ -165,8 +165,8 @@ int GPIO::writeDirection() const
 
 /**
  * @brief Write value to GPIO pin via Linux filesystem
- * 
- * @return int 
+ *
+ * @return int
  */
 int GPIO::writeValue() const
 {
@@ -187,8 +187,8 @@ int GPIO::writeValue() const
 
 /**
  * @brief Retrieve GPIO direction
- * 
- * @return GPIO_DIRECTION 
+ *
+ * @return GPIO_DIRECTION
  */
 GPIO_DIRECTION GPIO::getDirection()
 {
@@ -223,8 +223,8 @@ GPIO_DIRECTION GPIO::getDirection()
 
 /**
  * @brief Retrieve GPIO value
- * 
- * @return GPIO_VALUE 
+ *
+ * @return GPIO_VALUE
  */
 GPIO_VALUE GPIO::getValue()
 {

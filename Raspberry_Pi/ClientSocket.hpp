@@ -19,12 +19,12 @@ private:
     hostent *m_server;
     std::string m_server_name;
     bool m_is_connected;
-    IOManager *const m_IO_manager;
+    IOManager &m_IO_manager;
 
     int log(const std::string &msg) const;
 
 public:
-    ClientSocket(const std::string &server_name, int port_number, IOManager *IO_manager);
+    ClientSocket(const std::string &server_name, int port_number, IOManager &IO_manager);
     ~ClientSocket();
 
     int connectToServer();

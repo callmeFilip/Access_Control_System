@@ -5,13 +5,13 @@ const int CLIENT_SOCKET_DEFAULT_RECIEVE_SIZE = 1024;
 
 /**
  * @brief Construct a new ClientSocket::ClientSocket object
- * 
+ *
  * @param server_name Name of server (could be ip)
  * @param port_number Port number
- * @param IO_manager IO_manager instance responsible for logging 
+ * @param IO_manager IO_manager instance responsible for logging
  */
 ClientSocket::ClientSocket(const std::string &server_name,
-                           int port_number, IOManager *IO_manager)
+                           int port_number, IOManager &IO_manager)
     : m_socketfd(-1), m_port_number(port_number),
       m_server(NULL), m_server_name(server_name),
       m_is_connected(false), m_IO_manager(IO_manager)
@@ -22,7 +22,7 @@ ClientSocket::ClientSocket(const std::string &server_name,
 
 /**
  * @brief Destroy the ClientSocket::ClientSocket object
- * Calls disconnect from server and logs  
+ * Calls disconnect from server and logs
  */
 ClientSocket::~ClientSocket()
 {
@@ -36,8 +36,8 @@ ClientSocket::~ClientSocket()
 
 /**
  * @brief Create socket, get server host entry, connect to server
- * 
- * @return int 
+ *
+ * @return int
  */
 int ClientSocket::connectToServer()
 {
@@ -84,8 +84,8 @@ int ClientSocket::connectToServer()
 
 /**
  * @brief Disconnect from server and close socket
- * 
- * @return int 
+ *
+ * @return int
  */
 int ClientSocket::disconnectFromServer()
 {
@@ -108,9 +108,9 @@ int ClientSocket::disconnectFromServer()
 
 /**
  * @brief Write to socket
- * 
+ *
  * @param msg Message to transmit
- * @return int 
+ * @return int
  */
 int ClientSocket::send(const std::string &msg) const
 {
@@ -131,9 +131,9 @@ int ClientSocket::send(const std::string &msg) const
 
 /**
  * @brief Read from file descriptor and return the data
- * 
+ *
  * @param size Size of bytes to read from file descriptor
- * @return std::string 
+ * @return std::string
  */
 std::string ClientSocket::recieve(const int size = CLIENT_SOCKET_DEFAULT_RECIEVE_SIZE) const
 {
@@ -157,11 +157,11 @@ std::string ClientSocket::recieve(const int size = CLIENT_SOCKET_DEFAULT_RECIEVE
 
 /**
  * @brief Logging data to log.txt
- * 
+ *
  * @param msg Message to log
- * @return int 
+ * @return int
  */
 int ClientSocket::log(const std::string &msg) const
 {
-    return m_IO_manager->write(msg);
+    return m_IO_manager.write(msg);
 }

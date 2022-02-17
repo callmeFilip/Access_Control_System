@@ -11,7 +11,7 @@
  * @param bus_path File path to device
  * @param IO_manager IO_manager instance responsible for logging
  */
-UARTManager::UARTManager(const std::string &bus_path, IOManager *IO_manager)
+UARTManager::UARTManager(const std::string &bus_path, IOManager &IO_manager)
     : m_bus_file_descriptor(-1), m_IO_manager(IO_manager), m_is_open(false)
 {
     if (openConnection(bus_path) == 0)
@@ -167,5 +167,5 @@ int UARTManager::recieve(char *result, size_t length = 1) const
  */
 int UARTManager::log(const std::string &msg) const
 {
-    return m_IO_manager->write(msg);
+    return m_IO_manager.write(msg);
 }
