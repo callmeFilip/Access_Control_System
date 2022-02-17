@@ -1,41 +1,41 @@
 // #include <iostream>
 // #include <unistd.h>
-#include <stdlib.h>
+// #include <stdlib.h>
 
 // #include "GPIO.hpp"
-#include "IOManager.hpp"
+// #include "IOManager.hpp"
 // #include "ClientSocket.hpp"
 // #include "UARTManager.hpp"
-#include "PN532.hpp"
+// #include "PN532.hpp"
 
-char secretCode[] = {0xc4, 0x72, 0x88, 0x03};
+// char secretCode[] = {0xc4, 0x72, 0x88, 0x03};
 
-static void print_hex(const uint8_t *pbtData, const size_t szBytes)
-{
-    size_t szPos;
-    for (szPos = 0; szPos < szBytes; szPos++)
-    {
-        printf("%02x  ", pbtData[szPos]);
-    }
-    printf("\n");
-}
+// static void print_hex(const uint8_t *pbtData, const size_t szBytes)
+// {
+//     size_t szPos;
+//     for (szPos = 0; szPos < szBytes; szPos++)
+//     {
+//         printf("%02x  ", pbtData[szPos]);
+//     }
+//     printf("\n");
+// }
 
-static bool isSecretCode(const uint8_t *pbtData, const size_t szBytes)
-{
-    size_t szPos;
-    for (szPos = 0; szPos < szBytes; szPos++)
-    {
-        if (szPos > (sizeof(secretCode) / sizeof(char)))
-            break;
-        if (pbtData[szPos] != secretCode[szPos])
-            return false;
-    }
-    return true;
-}
+// static bool isSecretCode(const uint8_t *pbtData, const size_t szBytes)
+// {
+//     size_t szPos;
+//     for (szPos = 0; szPos < szBytes; szPos++)
+//     {
+//         if (szPos > (sizeof(secretCode) / sizeof(char)))
+//             break;
+//         if (pbtData[szPos] != secretCode[szPos])
+//             return false;
+//     }
+//     return true;
+// }
 
 int main()
 {
-    IOManager mng("log.txt");
+    // IOManager mng("log.txt");
 
     // GPIO lock(16, &mng);
     // std::cout << lock.getDirection() << std::endl;
