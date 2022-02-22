@@ -8,6 +8,7 @@
 // #include "UARTManager.hpp"
 // #include "PN532.hpp"
 // #include "LED.hpp"
+// #include "Lock.hpp"
 
 // char secretCode[] = {0xc4, 0x72, 0x88, 0x03};
 
@@ -132,6 +133,18 @@ int main()
 
     // std::cout << led.setLed(LOW) << std::endl;
     // std::cout << led.getValue() << std::endl;
+
+    // sleep(10);
+
+    // Lock lock(20, mng);
+
+    // std::cout << lock.setLock(HIGH) << std::endl;
+    // std::cout << lock.getValue() << std::endl;
+
+    // sleep(10);
+
+    // std::cout << lock.setLock(LOW) << std::endl;
+    // std::cout << lock.getValue() << std::endl;
 
     // sleep(10);
 
