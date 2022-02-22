@@ -43,11 +43,13 @@ protected:
     GPIO_DIRECTION getDirection();
 
     int setValue(const GPIO_VALUE &);
-    GPIO_VALUE getValue();
 
     int getNumber() const { return m_gpio_number; }
 
     virtual int log(const std::string &msg) const;
+
+public:
+    GPIO_VALUE getValue();
 };
 
 #endif // GPIO
