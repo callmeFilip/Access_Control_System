@@ -122,6 +122,11 @@ int GPIO::setValue(const GPIO_VALUE &value)
         return 1;
     }
 
+    if (value != GPIO_VALUE::HIGH && value != GPIO_VALUE::LOW)
+    {
+        return 1;
+    }
+
     m_value = value;
 
     return writeValue();
