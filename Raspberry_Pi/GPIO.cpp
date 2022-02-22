@@ -103,6 +103,12 @@ int GPIO::log(const std::string &msg) const
  */
 int GPIO::setDirection(const GPIO_DIRECTION &direction)
 {
+    if (direction != GPIO_DIRECTION::INPUT && direction != GPIO_DIRECTION::OUTPUT)
+    {
+        log("Invalid direction");
+        return 1;
+    }
+
     m_direction = direction;
 
     return writeDirection();
@@ -124,6 +130,7 @@ int GPIO::setValue(const GPIO_VALUE &value)
 
     if (value != GPIO_VALUE::HIGH && value != GPIO_VALUE::LOW)
     {
+        log("Invalid value");
         return 1;
     }
 
