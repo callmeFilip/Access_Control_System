@@ -59,17 +59,6 @@ int LED::setLed(const GPIO_VALUE &value)
     }
     else
     {
-        if (value == HIGH)
-        {
-            return setValue(HIGH);
-        }
-        else if (value == LOW)
-        {
-            return setValue(LOW);
-        }
-        else
-        {
-            return 1;
-        }
+        return setValue(value);
     }
 }
