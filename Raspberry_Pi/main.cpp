@@ -1,13 +1,13 @@
-#include <iostream>
-#include <unistd.h>
+// #include <iostream>
+// #include <unistd.h>
 // #include <stdlib.h>
 
 // #include "GPIO.hpp"
-#include "IOManager.hpp"
+// #include "IOManager.hpp"
 // #include "ClientSocket.hpp"
 // #include "UARTManager.hpp"
 // #include "PN532.hpp"
-#include "LED.hpp"
+// #include "LED.hpp"
 
 // char secretCode[] = {0xc4, 0x72, 0x88, 0x03};
 
@@ -36,7 +36,7 @@
 
 int main()
 {
-    IOManager mng("log.txt");
+    // IOManager mng("log.txt");
 
     // GPIO lock(16, &mng);
     // std::cout << lock.getDirection() << std::endl;
@@ -123,17 +123,17 @@ int main()
     //     printf("No\n");
     // }
 
-    LED led(16, mng, true);
+    // LED led(16, mng, true);
 
-    std::cout << led.setLed(HIGH) << std::endl;
-    std::cout << led.getValue() << std::endl;
+    // std::cout << led.setLed(HIGH) << std::endl;
+    // std::cout << led.getValue() << std::endl;
 
-    sleep(10);
+    // sleep(10);
 
-    std::cout << led.setLed(LOW) << std::endl;
-    std::cout << led.getValue() << std::endl;
+    // std::cout << led.setLed(LOW) << std::endl;
+    // std::cout << led.getValue() << std::endl;
 
-    sleep(10);
+    // sleep(10);
 
     return 0;
 }
