@@ -31,7 +31,7 @@ LED::LED(int gpio_number, IOManager &IO_manager, bool inverted)
  */
 LED::~LED()
 {
-    log("LED unitilized");
+    log("LED uninitilized");
 }
 
 /**
