@@ -22,7 +22,9 @@ LED::LED(int gpio_number, IOManager &IO_manager, bool inverted)
         GPIO::setValue(LOW);
     }
 
+#ifdef DEBUG
     log("LED initialized");
+#endif
 }
 
 /**
@@ -31,7 +33,9 @@ LED::LED(int gpio_number, IOManager &IO_manager, bool inverted)
  */
 LED::~LED()
 {
+#ifdef DEBUG
     log("LED uninitilized");
+#endif
 }
 
 /**
