@@ -18,10 +18,14 @@ GPIO::GPIO(int gpio_number, IOManager &IO_manager)
 {
     if (exportGPIO() != 0)
     {
+#ifdef DEBUG
         log("GPIO " + std::to_string(gpio_number) + " Failed to export!");
+#endif
         exit(1); // cannot exit because allocated memory will not be freed! ???? or is it # TODO
     }
+#ifdef DEBUG
     log("GPIO " + std::to_string(gpio_number) + " exported successffully!");
+#endif
 
     m_direction = getDirection();
     m_value = getValue();
@@ -37,10 +41,14 @@ GPIO::~GPIO()
 
     if (unexportGPIO() != 0)
     {
+#ifdef DEBUG
         log("GPIO " + std::to_string(m_gpio_number) + " Failed to unexport!");
+#endif
         exit(1); // cannot exit because allocated memory will not be freed! ???? or is it # TODO
     }
+#ifdef DEBUG
     log("GPIO " + std::to_string(m_gpio_number) + " unexported successffully!");
+#endif
 }
 
 /**
@@ -53,7 +61,9 @@ int GPIO::exportGPIO() const
     std::ofstream out(GPIO_EXPORT_PATH);
     if (out.is_open() != true)
     {
+#ifdef DEBUG
         log("Could not open : " GPIO_EXPORT_PATH);
+#endif
         return 1;
     }
 
@@ -74,7 +84,9 @@ int GPIO::unexportGPIO() const
 
     if (out.is_open() != true)
     {
+#ifdef DEBUG
         log("Could not open : " GPIO_UNEXPORT_PATH);
+#endif
         return 1;
     }
 
@@ -105,7 +117,9 @@ int GPIO::setDirection(const GPIO_DIRECTION &direction)
 {
     if (direction != GPIO_DIRECTION::INPUT && direction != GPIO_DIRECTION::OUTPUT)
     {
+#ifdef DEBUG
         log("Invalid direction");
+#endif
         return 1;
     }
 
@@ -124,13 +138,17 @@ int GPIO::setValue(const GPIO_VALUE &value)
 {
     if (m_direction != GPIO_DIRECTION::OUTPUT)
     {
+#ifdef DEBUG
         log("GPIO " + std::to_string(m_gpio_number) + " direction not set to OUTPUT");
+#endif
         return 1;
     }
 
     if (value != GPIO_VALUE::HIGH && value != GPIO_VALUE::LOW)
     {
+#ifdef DEBUG
         log("Invalid value");
+#endif
         return 1;
     }
 
@@ -149,7 +167,9 @@ int GPIO::writeDirection() const
     std::ofstream out(GPIO_DIRECTION_PATH(m_gpio_number));
     if (out.is_open() != true)
     {
+#ifdef DEBUG
         log("Could not open : " GPIO_DIRECTION_PATH(m_gpio_number));
+#endif
         return 1;
     }
     switch (m_direction)
@@ -163,7 +183,9 @@ int GPIO::writeDirection() const
         break;
 
     default: // probably will never come to this point
+#ifdef DEBUG
         log("Error has occurred in direction change");
+#endif
         out.close();
         return 1;
 
@@ -186,7 +208,9 @@ int GPIO::writeValue() const
 
     if (out.is_open() != true)
     {
+#ifdef DEBUG
         log("Could not open : " GPIO_VALUE_PATH(m_gpio_number));
+#endif
         return 1;
     }
 
@@ -208,7 +232,9 @@ GPIO_DIRECTION GPIO::getDirection()
 
     if (in.is_open() != true)
     {
+#ifdef DEBUG
         log("Could not open : " GPIO_DIRECTION_PATH(m_gpio_number));
+#endif
         m_direction = GPIO_DIRECTION::GPIO_DIRECTION_UNKNOWN;
         return m_direction;
     }
@@ -227,7 +253,9 @@ GPIO_DIRECTION GPIO::getDirection()
     else
     {
         m_direction = GPIO_DIRECTION::GPIO_DIRECTION_UNKNOWN;
+#ifdef DEBUG
         log("Unknown GPIO direction");
+#endif
     }
 
     return m_direction;
@@ -244,7 +272,9 @@ GPIO_VALUE GPIO::getValue()
 
     if (in.is_open() != true)
     {
+#ifdef DEBUG
         log("Could not open : " GPIO_VALUE_PATH(m_gpio_number));
+#endif
         m_value = GPIO_VALUE::GPIO_VALUE_UNKNOWN;
         return m_value;
     }
@@ -263,7 +293,9 @@ GPIO_VALUE GPIO::getValue()
     else
     {
         m_value = GPIO_VALUE::GPIO_VALUE_UNKNOWN;
+#ifdef DEBUG
         log("Unknown GPIO value");
+#endif
     }
 
     return m_value;
