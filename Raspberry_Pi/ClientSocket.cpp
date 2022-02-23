@@ -17,7 +17,9 @@ ClientSocket::ClientSocket(const std::string &server_name,
       m_is_connected(false), m_IO_manager(IO_manager)
 
 {
-    log("Client socket constructed successfully"); // TODO remove log here
+#ifdef DEBUG
+    log("Client socket constructed successfully");
+#endif
 }
 
 /**
@@ -31,7 +33,9 @@ ClientSocket::~ClientSocket()
         disconnectFromServer();
     }
 
+#ifdef DEBUG
     log("Client socket destructed successfully");
+#endif
 }
 
 /**
@@ -45,7 +49,9 @@ int ClientSocket::connectToServer()
 
     if (m_socketfd < 0)
     {
+#ifdef DEBUG
         log("Cannot create client socket");
+#endif
         return 1;
     }
 
@@ -53,7 +59,9 @@ int ClientSocket::connectToServer()
 
     if (m_server == NULL)
     {
+#ifdef DEBUG
         log("Client socket could not find host");
+#endif
         return 1;
     }
 
@@ -68,16 +76,23 @@ int ClientSocket::connectToServer()
 
     m_server_address.sin_port = htons(m_port_number); // transform port number to TCP/IP suitable byte order (INET family)
 
+#ifdef DEBUG
     log("Client socket initialized successfully");
+#endif
 
     if (connect(m_socketfd, (sockaddr *)&m_server_address, sizeof(m_server_address)) < 0)
     {
+#ifdef DEBUG
         log("Client socket could not connect to the server");
+#endif
         return 1;
     }
 
     m_is_connected = true;
+
+#ifdef DEBUG
     log("Successfully connected to the server");
+#endif
 
     return 0;
 }
@@ -95,13 +110,18 @@ int ClientSocket::disconnectFromServer()
 
         close(m_socketfd);
 
+#ifdef DEBUG
         log("Successfully disconnected from the server");
+#endif
 
         return 0;
     }
     else
     {
+
+#ifdef DEBUG
         log("Client socket is already disconnected");
+#endif
         return 1;
     }
 }
@@ -116,13 +136,17 @@ int ClientSocket::send(const std::string &msg) const
 {
     if (!m_is_connected)
     {
+#ifdef DEBUG
         log("Client socket not connected");
+#endif
         return 1;
     }
 
     if (write(m_socketfd, msg.c_str(), msg.length()) < 0)
     {
+#ifdef DEBUG
         log("Client socket could not send a message");
+#endif
         return 1;
     }
 
@@ -139,7 +163,9 @@ std::string ClientSocket::recieve(const int size = CLIENT_SOCKET_DEFAULT_RECIEVE
 {
     if (!m_is_connected)
     {
+#ifdef DEBUG
         log("Client socket not connected");
+#endif
         return "ERROR";
     }
 
@@ -148,7 +174,9 @@ std::string ClientSocket::recieve(const int size = CLIENT_SOCKET_DEFAULT_RECIEVE
 
     if (read(m_socketfd, buffer, sizeof(buffer)) < 0)
     {
+#ifdef DEBUG
         log("Client socket could not read a message");
+#endif
         return "ERROR";
     }
 
