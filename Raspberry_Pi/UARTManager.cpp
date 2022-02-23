@@ -16,11 +16,15 @@ UARTManager::UARTManager(const std::string &bus_path, IOManager &IO_manager)
 {
     if (openConnection(bus_path) == 0)
     {
+#ifdef DEBUG
         log("UARTManager constructed successfully");
+#endif
     }
     else
     {
+#ifdef DEBUG
         log("UARTManager constructed unsuccessfully");
+#endif
     }
 }
 
@@ -32,11 +36,15 @@ UARTManager::~UARTManager()
 {
     if (closeConnection() == 0)
     {
+#ifdef DEBUG
         log("UARTManager deconstructed successfully");
+#endif
     }
     else
     {
+#ifdef DEBUG
         log("UARTManager deconstructed unsuccessfully");
+#endif
     }
 }
 
@@ -50,7 +58,9 @@ int UARTManager::openConnection(const std::string &bus_path)
 {
     if (m_is_open)
     {
+#ifdef DEBUG
         log("UART connection is already opened");
+#endif
         return 1;
     }
 
@@ -59,7 +69,9 @@ int UARTManager::openConnection(const std::string &bus_path)
 
     if (m_bus_file_descriptor < 0)
     {
+#ifdef DEBUG
         log("UARTManager failed to open the device");
+#endif
         return 1;
     }
 
@@ -89,13 +101,17 @@ int UARTManager::closeConnection()
 {
     if (!m_is_open)
     {
+#ifdef DEBUG
         log("UART connection is not opened");
+#endif
         return 1;
     }
 
     if (close(m_bus_file_descriptor) < 0)
     {
+#ifdef DEBUG
         log("UART connection is not closed successfully");
+#endif
         return 1;
     }
 
@@ -115,13 +131,17 @@ int UARTManager::transmit(const char *data, size_t length = 1) const
 {
     if (!m_is_open)
     {
+#ifdef DEBUG
         log("UART is not connected(transmit)");
+#endif
         return 1;
     }
 
     if (write(m_bus_file_descriptor, data, length) < 0)
     {
+#ifdef DEBUG
         log("UART failed to write data");
+#endif
         return 1;
     }
 
@@ -143,14 +163,17 @@ int UARTManager::recieve(char *result, size_t length = 1) const
 {
     if (!m_is_open)
     {
+#ifdef DEBUG
         log("UART is not connected(recieve)");
+#endif
         return 1;
     }
 
     if (read(m_bus_file_descriptor, result, length) < 0)
     {
+#ifdef DEBUG
         log("UART failed to read data");
-
+#endif
         return 1;
     }
 
