@@ -21,7 +21,9 @@ PN532::~PN532()
 {
     nfc_close(m_pn532_dev);
     nfc_exit(m_context);
+#ifdef DEBUG
     log("PN532 closed successfully");
+#endif
 }
 
 /**
@@ -37,7 +39,9 @@ int PN532::init(const nfc_connstring *dev_name)
     // Initialize context
     if (m_context == NULL)
     {
+#ifdef DEBUG
         log("Unable to initialize libnfc (malloc)");
+#endif
         return 1;
     }
 
@@ -45,7 +49,9 @@ int PN532::init(const nfc_connstring *dev_name)
     m_pn532_dev = nfc_open(m_context, *dev_name);
     if (nfc_initiator_init(m_pn532_dev) < 0)
     {
+#ifdef DEBUG
         log("PN532 could not open device");
+#endif
         return 1;
     }
 
@@ -65,11 +71,15 @@ int PN532::poll(const nfc_modulation &modulation, nfc_target &target)
     // Start polling
     if (nfc_initiator_select_passive_target(m_pn532_dev, modulation, NULL, 0, &target) > 0)
     {
+#ifdef DEBUG
         log("PN532 read successfully");
+#endif
         return 0;
     }
 
+#ifdef DEBUG
     log("PN532 did not read successfully");
+#endif
 
     return 1;
 }
