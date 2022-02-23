@@ -12,8 +12,9 @@ Lock::Lock(int gpio_number, IOManager &IO_manager)
 {
     GPIO::setDirection(OUTPUT);
     GPIO::setValue(LOW);
-
+#ifdef DEBUG
     log("Lock initialized");
+#endif
 }
 
 /**
@@ -22,7 +23,9 @@ Lock::Lock(int gpio_number, IOManager &IO_manager)
  */
 Lock::~Lock()
 {
+#ifdef DEBUG
     log("Lock uninitialized");
+#endif
 }
 
 /**
