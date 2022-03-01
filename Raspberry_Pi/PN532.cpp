@@ -55,7 +55,10 @@ int PN532::init(const nfc_connstring *dev_name)
         return 1;
     }
 
+#ifdef DEBUG
     log("PN532 initialized successfully");
+#endif
+
     return 0;
 }
 
