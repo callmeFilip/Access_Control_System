@@ -17,6 +17,9 @@ ClientSocket::ClientSocket(const std::string &server_name,
       m_is_connected(false), m_IO_manager(IO_manager)
 
 {
+    bzero((char *)&m_server_address,
+          sizeof(m_server_address)); // assign default server address
+
 #ifdef DEBUG
     log("Client socket constructed successfully");
 #endif
@@ -64,9 +67,6 @@ int ClientSocket::connectToServer()
 #endif
         return 1;
     }
-
-    bzero((char *)&m_server_address,
-          sizeof(m_server_address)); // assign default server address
 
     m_server_address.sin_family = AF_INET; // set address family to INET
 
