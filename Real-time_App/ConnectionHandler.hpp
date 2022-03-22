@@ -31,7 +31,7 @@ private:
     }
 
 public:
-    ConnectionHandler(ServerSocket *parent, sockaddr_in *client, int clien_socket, IOManager &IO_manager);
+    ConnectionHandler(ServerSocket *parent, sockaddr_in *client, int client_socket, IOManager &IO_manager);
     ~ConnectionHandler();
 
     int start();
