@@ -15,15 +15,16 @@ const int GPIO_LOCK = 12;
 const int GPIO_LED_GREEN = 8;
 const int GPIO_LED_RED = 25;
 
-const int LOCK_TIME = 7; // seconds
+const int LOCK_TIME = 5; // seconds
+const int DELAY = 2;     // seconds
 
-#define SERVER_NAME "www.google.com"
-const int SERVER_PORT = 80;
+#define SERVER_NAME "192.168.0.105"
+const int SERVER_PORT = 54321;
+const int MESSAGE_TRANSMIT_LENGTH = 1024;
+const int MESSAGE_RECIEVE_LENGTH = 8;
 
 const int CODE_ACCESS_GRANTED = 1;
 const int CODE_ACCESS_DENIED = 0;
-
-char secretCode[] = {0xc4, 0x72, 0x88, 0x03};
 
 // Initialize log output
 IOManager mng("log.txt");
@@ -66,19 +67,6 @@ static void print_hex(const uint8_t *pbtData, const size_t szBytes)
 }
 #endif
 
-static bool isSecretCode(const uint8_t *pbtData, const size_t szBytes)
-{
-    size_t szPos;
-    for (szPos = 0; szPos < szBytes; szPos++)
-    {
-        if (szPos > (sizeof(secretCode) / sizeof(char)))
-            break;
-        if (pbtData[szPos] != secretCode[szPos])
-            return false;
-    }
-    return true;
-}
-
 void accessGrant()
 {
     lock.setLock(HIGH);
@@ -90,9 +78,6 @@ void accessGrant()
         sleep(LOCK_TIME);
 
         green.setLed(LOW);
-#ifdef DEBUG
-        log("Lock sequence successfull");
-#endif
     }
     else
     {
@@ -117,10 +102,6 @@ void accessDeny()
     red.setLed(LOW);
     sleep(1);
     red.setLed(HIGH);
-
-#ifdef DEBUG
-    log("Access denied");
-#endif
 }
 
 void accessNoResponse()
@@ -128,10 +109,6 @@ void accessNoResponse()
     red.setLed(LOW);
     sleep(LOCK_TIME);
     red.setLed(HIGH);
-
-#ifdef DEBUG
-    log("Server did not respond");
-#endif
 }
 
 int main()
@@ -151,8 +128,8 @@ int main()
         if (connection.connectToServer() == 0)
         {
             connection.send(std::string((char *)target.nti.nai.abtUid));
-            // server_reply = std::stoi(connection.recieve(1024));
-            server_reply = isSecretCode(target.nti.nai.abtUid, target.nti.nai.szUidLen);
+            server_reply = std::stoi(connection.recieve(MESSAGE_RECIEVE_LENGTH));
+            // server_reply = isSecretCode(target.nti.nai.abtUid, target.nti.nai.szUidLen);
 
             if (server_reply == CODE_ACCESS_GRANTED)
             {
@@ -179,12 +156,13 @@ int main()
         }
         else
         {
-            // delete
-
+            accessNoResponse();
+#ifdef DEBUG
             log("Connection to server failed");
+#endif
         }
 
-        sleep(LOCK_TIME);
+        sleep(DELAY);
     }
 
     return 1;
