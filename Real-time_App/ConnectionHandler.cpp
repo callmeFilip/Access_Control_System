@@ -17,8 +17,8 @@ const int MESSAGE_RECIEVE_LENGTH = 4;
  * @param clien_socket Client socket
  * @param IO_manager IO_manager instance responsible for logging
  */
-ConnectionHandler::ConnectionHandler(ServerSocket *parent, sockaddr_in *client, int clien_socket, IOManager &IO_manager)
-    : m_parent(parent), m_client(client), m_client_socketfd(clien_socket), m_running(true), m_IO_manager(IO_manager)
+ConnectionHandler::ConnectionHandler(ServerSocket *parent, sockaddr_in *client, int client_socket, IOManager &IO_manager)
+    : m_client(client), m_client_socketfd(client_socket), m_parent(parent), m_running(true), m_IO_manager(IO_manager)
 {
 #ifdef DEBUG
     log("Connection handler constructed successfully");
