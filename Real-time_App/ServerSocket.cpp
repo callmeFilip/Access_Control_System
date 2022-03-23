@@ -20,8 +20,7 @@ ServerSocket::ServerSocket(const int &port_number, IOManager &IO_manager)
     : m_socketfd(-1), m_port_number(port_number),
       m_connections(std::vector<ConnectionHandler *>()), m_IO_manager(IO_manager)
 {
-    // TODO Change in consturctor AND CLIENT SOCKET bzero to memset Optional!
-    bzero((char *)&m_server_address, sizeof(m_server_address));
+    memset((char *)&m_server_address, 0, sizeof(m_server_address));
 }
 /**
  * @brief Destroy the Server Socket:: Server Socket object
