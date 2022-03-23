@@ -17,6 +17,8 @@ ClientSocket::ClientSocket(const std::string &server_name,
       m_is_connected(false), m_IO_manager(IO_manager)
 
 {
+    memset((char *)&m_server_address, 0, sizeof(m_server_address)); // assign default server address
+
 #ifdef DEBUG
     log("Client socket constructed successfully");
 #endif
@@ -65,14 +67,11 @@ int ClientSocket::connectToServer()
         return 1;
     }
 
-    bzero((char *)&m_server_address,
-          sizeof(m_server_address)); // assign default server address
-
     m_server_address.sin_family = AF_INET; // set address family to INET
 
-    bcopy((char *)m_server->h_addr,
-          (char *)&m_server_address.sin_addr.s_addr,
-          m_server->h_length); // copy server address from DNS database to sockaddr struct
+    memcpy((char *)&m_server_address.sin_addr.s_addr,
+           (char *)m_server->h_addr,
+           m_server->h_length); // copy server address from DNS database to sockaddr struct
 
     m_server_address.sin_port = htons(m_port_number); // transform port number to TCP/IP suitable byte order (INET family)
 
@@ -170,7 +169,7 @@ std::string ClientSocket::recieve(const int size = CLIENT_SOCKET_DEFAULT_RECIEVE
     }
 
     char buffer[size];
-    bzero(buffer, size);
+    memset(buffer, 0, size);
 
     if (read(m_socketfd, buffer, sizeof(buffer)) < 0)
     {

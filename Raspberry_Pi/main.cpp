@@ -1,152 +1,169 @@
-// #include <iostream>
-// #include <unistd.h>
-// #include <stdlib.h>
+#include <iostream>
+#include <unistd.h>
+#include <stdlib.h>
+#include <string>
 
-// #include "GPIO.hpp"
-// #include "IOManager.hpp"
-// #include "ClientSocket.hpp"
+#include "GPIO.hpp"
+#include "IOManager.hpp"
+#include "ClientSocket.hpp"
 // #include "UARTManager.hpp"
-// #include "PN532.hpp"
-// #include "LED.hpp"
-// #include "Lock.hpp"
+#include "PN532.hpp"
+#include "LED.hpp"
+#include "Lock.hpp"
 
-// char secretCode[] = {0xc4, 0x72, 0x88, 0x03};
+const int GPIO_LOCK = 12;
+const int GPIO_LED_GREEN = 8;
+const int GPIO_LED_RED = 25;
 
-// static void print_hex(const uint8_t *pbtData, const size_t szBytes)
-// {
-//     size_t szPos;
-//     for (szPos = 0; szPos < szBytes; szPos++)
-//     {
-//         printf("%02x  ", pbtData[szPos]);
-//     }
-//     printf("\n");
-// }
+const int LOCK_TIME = 5; // seconds
+const int DELAY = 2;     // seconds
 
-// static bool isSecretCode(const uint8_t *pbtData, const size_t szBytes)
-// {
-//     size_t szPos;
-//     for (szPos = 0; szPos < szBytes; szPos++)
-//     {
-//         if (szPos > (sizeof(secretCode) / sizeof(char)))
-//             break;
-//         if (pbtData[szPos] != secretCode[szPos])
-//             return false;
-//     }
-//     return true;
-// }
+#define SERVER_NAME "192.168.0.105"
+const int SERVER_PORT = 54321;
+const int MESSAGE_TRANSMIT_LENGTH = 1024;
+const int MESSAGE_RECIEVE_LENGTH = 8;
+
+const int CODE_ACCESS_GRANTED = 1;
+const int CODE_ACCESS_DENIED = 0;
+
+// Initialize log output
+IOManager mng("log.txt");
+
+// Initialize lock
+Lock lock(GPIO_LOCK, mng);
+
+// Initialize LEDs
+LED green(GPIO_LED_GREEN, mng, true);
+LED red(GPIO_LED_RED, mng, true);
+
+// Initialize PN532
+PN532 sensor(mng, NULL);
+
+const nfc_modulation nmMifare =
+    {
+        .nmt = NMT_ISO14443A,
+        .nbr = NBR_106,
+};
+
+nfc_target target; // buffer device
+
+// Initialize TCP/IP connection
+ClientSocket connection(SERVER_NAME, SERVER_PORT, mng);
+
+void log(const std::string &msg)
+{
+    mng.write(msg);
+}
+
+#ifdef DEBUG
+static void print_hex(const uint8_t *pbtData, const size_t szBytes)
+{
+    size_t szPos;
+    for (szPos = 0; szPos < szBytes; szPos++)
+    {
+        printf("%02x  ", pbtData[szPos]);
+    }
+    printf("\n");
+}
+#endif
+
+void accessGrant()
+{
+    lock.setLock(HIGH);
+
+    if (lock.getValue() == HIGH)
+    {
+        green.setLed(HIGH);
+
+        sleep(LOCK_TIME);
+
+        green.setLed(LOW);
+    }
+    else
+    {
+#ifdef DEBUG
+        log("Lock sequence failure");
+#endif
+    }
+
+    lock.setLock(LOW);
+}
+
+void accessDeny()
+{
+    red.setLed(LOW);
+    sleep(1);
+    red.setLed(HIGH);
+    sleep(1);
+    red.setLed(LOW);
+    sleep(1);
+    red.setLed(HIGH);
+    sleep(1);
+    red.setLed(LOW);
+    sleep(1);
+    red.setLed(HIGH);
+}
+
+void accessNoResponse()
+{
+    red.setLed(LOW);
+    sleep(LOCK_TIME);
+    red.setLed(HIGH);
+}
 
 int main()
 {
-    // IOManager mng("log.txt");
+    int server_reply = -1;
 
-    // GPIO lock(16, &mng);
-    // std::cout << lock.getDirection() << std::endl;
-    // std::cout << lock.getValue() << std::endl;
+    red.setLed(HIGH); // System is initialized and ready
 
-    // sleep(5);
+    while (true)
+    {
+        sensor.poll(nmMifare, target);
 
-    // std::cout << lock.setDirection(GPIO_DIRECTION::OUTPUT) << std::endl;
-    // std::cout << lock.setValue(GPIO_VALUE::HIGH) << std::endl;
-    // std::cout << lock.getDirection() << std::endl;
-    // std::cout << lock.getValue() << std::endl;
+#ifdef DEBUG
+        print_hex(target.nti.nai.abtUid, target.nti.nai.szUidLen);
+#endif
 
-    // sleep(10);
+        if (connection.connectToServer() == 0)
+        {
+            connection.send(std::string((char *)target.nti.nai.abtUid));
+            server_reply = std::stoi(connection.recieve(MESSAGE_RECIEVE_LENGTH));
+            // server_reply = isSecretCode(target.nti.nai.abtUid, target.nti.nai.szUidLen);
 
-    // std::cout << lock.setDirection(GPIO_DIRECTION::INPUT) << std::endl;
-    // std::cout << lock.setValue(GPIO_VALUE::HIGH) << std::endl;
-    // std::cout << lock.getDirection() << std::endl;
-    // std::cout << lock.getValue() << std::endl;
+            if (server_reply == CODE_ACCESS_GRANTED)
+            {
+                accessGrant();
+#ifdef DEBUG
+                log("Access Granted");
+#endif
+            }
+            else if (server_reply == CODE_ACCESS_DENIED)
+            {
+                accessDeny();
+#ifdef DEBUG
+                log("Access Denied");
+#endif
+            }
+            else
+            {
+                accessNoResponse();
+#ifdef DEBUG
+                log("No responce");
+#endif
+            }
+            connection.disconnectFromServer();
+        }
+        else
+        {
+            accessNoResponse();
+#ifdef DEBUG
+            log("Connection to server failed");
+#endif
+        }
 
-    // sleep(10);
+        sleep(DELAY);
+    }
 
-    // std::cout << lock.setDirection(GPIO_DIRECTION::OUTPUT) << std::endl;
-    // std::cout << lock.setValue(GPIO_VALUE::HIGH) << std::endl;
-    // std::cout << lock.getDirection() << std::endl;
-    // std::cout << lock.getValue() << std::endl;
-
-    // sleep(10);
-
-    // ClientSocket inst("www.google.com", 80, &mng);
-
-    // inst.connectToServer();
-
-    // std::string message("GET / HTTP/1.1\n\n");
-
-    // std::cout << "Sending [" << message << "]" << std::endl;
-
-    // inst.send(message);
-
-    // std::string result = inst.recieve(1024);
-
-    // std::cout << "Recieved [" << result << "]" << std::endl;
-
-    // inst.disconnectFromServer();
-
-    // UARTManager uart("/dev/ttyAMA0", &mng);
-    // char *result = new char[6];
-    // for (size_t i = 0; i < 5; i++)
-    // {
-    //     result[i] = '/';
-    // }
-
-    // result[5] = '\0';
-
-    // uart.transmit("hello", 6);
-    // uart.recieve(result, 6);
-
-    // for (size_t i = 0; i < 5; i++)
-    // {
-    //     std::cout << (int)result[i] << std::endl;
-    // }
-    // std::cout << "1" << std::endl;
-
-    // delete[] result;
-
-    // PN532 sensor(mng, NULL);
-
-    // const nfc_modulation nmMifare =
-    //     {
-    //         .nmt = NMT_ISO14443A,
-    //         .nbr = NBR_106,
-    //     };
-
-    // nfc_target target;
-
-    // sensor.poll(nmMifare, target);
-
-    // print_hex(target.nti.nai.abtUid, target.nti.nai.szUidLen);
-    // if (isSecretCode(target.nti.nai.abtUid, target.nti.nai.szUidLen))
-    // {
-    //     printf("Yes\n");
-    // }
-    // else
-    // {
-    //     printf("No\n");
-    // }
-
-    // LED led(16, mng, true);
-
-    // std::cout << led.setLed(HIGH) << std::endl;
-    // std::cout << led.getValue() << std::endl;
-
-    // sleep(10);
-
-    // std::cout << led.setLed(LOW) << std::endl;
-    // std::cout << led.getValue() << std::endl;
-
-    // sleep(10);
-
-    // Lock lock(20, mng);
-
-    // std::cout << lock.setLock(HIGH) << std::endl;
-    // std::cout << lock.getValue() << std::endl;
-
-    // sleep(10);
-
-    // std::cout << lock.setLock(LOW) << std::endl;
-    // std::cout << lock.getValue() << std::endl;
-
-    // sleep(10);
-
-    return 0;
+    return 1;
 }
