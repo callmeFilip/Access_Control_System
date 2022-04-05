@@ -9,6 +9,7 @@
 
 #include "ConnectionHandler.hpp"
 #include "IOManager.hpp"
+#include "DatabaseConnector.hpp"
 
 class ServerSocket
 {
@@ -18,12 +19,13 @@ private:
     sockaddr_in m_server_address;
     sockaddr_in m_client_address;
     std::vector<ConnectionHandler *> m_connections;
+    DatabaseConnector &m_db_con;
     IOManager &m_IO_manager;
 
     int log(const std::string &msg) const;
 
 public:
-    ServerSocket(const int &port_number, IOManager &IO_manager);
+    ServerSocket(const int &port_number, DatabaseConnector &db_con, IOManager &IO_manager);
     ~ServerSocket();
 
     int listen();

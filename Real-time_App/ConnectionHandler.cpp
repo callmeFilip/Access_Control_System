@@ -7,7 +7,13 @@
 #include "ConnectionHandler.hpp"
 #include "ServerSocket.hpp"
 
-const int MESSAGE_RECIEVE_LENGTH = 4;
+const int RECIEVE_LENGTH = 64;
+
+const int CODE_ACCESS_DENIED = 0;
+const int CODE_ACCESS_GRANTED = 1;
+const int CODE_ACCESS_DENIED_UNKNOWN = 2;
+
+const std::string delimiter = "&";
 
 /**
  * @brief Construct a new Connection Handler:: Connection Handler object
@@ -17,8 +23,8 @@ const int MESSAGE_RECIEVE_LENGTH = 4;
  * @param clien_socket Client socket
  * @param IO_manager IO_manager instance responsible for logging
  */
-ConnectionHandler::ConnectionHandler(ServerSocket *parent, sockaddr_in *client, int client_socket, IOManager &IO_manager)
-    : m_client(client), m_client_socketfd(client_socket), m_parent(parent), m_running(true), m_IO_manager(IO_manager)
+ConnectionHandler::ConnectionHandler(ServerSocket *parent, sockaddr_in *client, int client_socket, DatabaseConnector &db_con, IOManager &IO_manager)
+    : m_client(client), m_client_socketfd(client_socket), m_parent(parent), m_running(true), m_db_con(db_con), m_IO_manager(IO_manager)
 {
 #ifdef DEBUG
     log("Connection handler constructed successfully");
@@ -94,20 +100,32 @@ std::string ConnectionHandler::recieve(const int size) const
     return std::string(read_buffer);
 }
 
-// TODO delete this
-const unsigned char secretCode[] = {0xc4, 0x72, 0x88, 0x03};
-
-static bool isSecretCode(const uint8_t *pbtData, const size_t szBytes)
+/**
+ * @brief Process data recieved by the network
+ *
+ * @param rec Recieved string
+ * @param access_level Return access level
+ * @param device_name Return device name
+ * @param code Return card code
+ */
+void ConnectionHandler::processRecievedData(const std::string &rec, int &access_level,
+                                            std::string &device_name, std::string &code) const
 {
-    size_t szPos;
-    for (szPos = 0; szPos < szBytes; szPos++)
-    {
-        if (szPos > (sizeof(secretCode) / sizeof(char)))
-            break;
-        if (pbtData[szPos] != secretCode[szPos])
-            return false;
-    }
-    return true;
+    size_t current_position = 0;
+    size_t starting_position = 0;
+
+    // Extract access level
+    current_position = rec.find(delimiter, starting_position);
+    access_level = std::stoi(rec.substr(starting_position, current_position));
+    starting_position = current_position + 1;
+
+    // Extract device_name
+    current_position = rec.find(delimiter, starting_position);
+    device_name = rec.substr(starting_position, current_position - starting_position);
+    starting_position = current_position + 1;
+
+    // Extract code
+    code = rec.substr(starting_position, rec.length());
 }
 
 /**
@@ -117,9 +135,24 @@ void ConnectionHandler::threadLoop()
 {
     while (m_running == true)
     {
-        std::string rec = recieve(MESSAGE_RECIEVE_LENGTH);
+        int access_level = -1;
+        std::string device_name = "NULL";
+        std::string code = "NULL";
 
-        send(std::to_string(isSecretCode((uint8_t *)rec.c_str(), rec.length())));
+        std::string rec = recieve(RECIEVE_LENGTH);
+
+        processRecievedData(rec, access_level, device_name, code);
+
+        int status = m_db_con.checkAttempt(code, device_name, access_level);
+
+        if (status != CODE_ACCESS_GRANTED)
+        {
+            send(std::to_string(CODE_ACCESS_DENIED));
+        }
+        else
+        {
+            send(std::to_string(CODE_ACCESS_GRANTED));
+        }
 
         m_running = false;
     }

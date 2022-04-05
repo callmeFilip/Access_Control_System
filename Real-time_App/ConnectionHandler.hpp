@@ -7,6 +7,7 @@
 #include <iostream>
 
 #include "IOManager.hpp"
+#include "DatabaseConnector.hpp"
 
 class ServerSocket;
 
@@ -18,9 +19,12 @@ private:
     pthread_t m_thread;
     ServerSocket *m_parent;
     bool m_running;
+    DatabaseConnector &m_db_con;
     IOManager &m_IO_manager;
 
     int log(const std::string &msg) const;
+
+    void processRecievedData(const std::string &rec, int &access_level, std::string &device_name, std::string &code) const;
 
     void threadLoop();
 
@@ -31,7 +35,7 @@ private:
     }
 
 public:
-    ConnectionHandler(ServerSocket *parent, sockaddr_in *client, int client_socket, IOManager &IO_manager);
+    ConnectionHandler(ServerSocket *parent, sockaddr_in *client, int client_socket, DatabaseConnector &db_con, IOManager &IO_manager);
     ~ConnectionHandler();
 
     int start();
