@@ -16,9 +16,10 @@ const int CONNECTIONS_QUEUE = 5;
  * @param port_number Server port
  * @param IO_manager IO_manager instance responsible for logging
  */
-ServerSocket::ServerSocket(const int &port_number, IOManager &IO_manager)
+ServerSocket::ServerSocket(const int &port_number, DatabaseConnector &db_con, IOManager &IO_manager)
     : m_socketfd(-1), m_port_number(port_number),
-      m_connections(std::vector<ConnectionHandler *>()), m_IO_manager(IO_manager)
+      m_connections(std::vector<ConnectionHandler *>()),
+      m_db_con(db_con), m_IO_manager(IO_manager)
 {
     memset((char *)&m_server_address, 0, sizeof(m_server_address));
 }
@@ -77,13 +78,13 @@ int ServerSocket::listen()
 #ifdef DEBUG
             log("Cannot bind client socket to new thread");
 #endif
-            delete temp_socket_addr; // TODO ?
+            delete temp_socket_addr;
             return 1;
         }
         else
         {
             // create and bind new connection to the connection handler vector
-            ConnectionHandler *new_connection = new ConnectionHandler(this, temp_socket_addr, temp_socketfd, m_IO_manager);
+            ConnectionHandler *new_connection = new ConnectionHandler(this, temp_socket_addr, temp_socketfd, m_db_con, m_IO_manager);
             m_connections.push_back(new_connection);
             new_connection->start();
         }

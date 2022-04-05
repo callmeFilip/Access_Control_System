@@ -145,10 +145,6 @@ int UARTManager::transmit(const char *data, size_t length = 1) const
         return 1;
     }
 
-    // write(m_bus_file_descriptor, "\n\r", 2);
-
-    // log("[TODO DELETE THIS] msg sent");
-
     return 0;
 }
 
@@ -176,8 +172,6 @@ int UARTManager::recieve(char *result, size_t length = 1) const
 #endif
         return 1;
     }
-
-    // log("[TODO DELETE THIS] msg recieved");
 
     return 0;
 }

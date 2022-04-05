@@ -1,2 +1,2 @@
 #!/bin/bash
-g++ -O4 -Wall  *.cpp -pthread
+g++ -O4 -Wall  *.cpp -pthread -I /usr/local/mysql/connector-c++-8.0.28/include -L /usr/local/mysql/connector-c++-8.0.28/lib64/debug -lmysqlcppconn8
