@@ -2,6 +2,8 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <string>
+#include <sstream>
+#include <iomanip>
 
 #include "GPIO.hpp"
 #include "IOManager.hpp"
@@ -20,11 +22,14 @@ const int DELAY = 2;     // seconds
 
 #define SERVER_NAME "192.168.0.105"
 const int SERVER_PORT = 54321;
-const int MESSAGE_TRANSMIT_LENGTH = 1024;
+const int MESSAGE_TRANSMIT_LENGTH = 64;
 const int MESSAGE_RECIEVE_LENGTH = 8;
 
 const int CODE_ACCESS_GRANTED = 1;
 const int CODE_ACCESS_DENIED = 0;
+
+const int DEVICE_ACCESS_LEVEL = 2;
+const std::string DEVICE_NAME = "Raspberry Pi #1";
 
 // Initialize log output
 IOManager mng("log.txt");
@@ -111,6 +116,27 @@ void accessNoResponse()
     red.setLed(HIGH);
 }
 
+/**
+ * @brief Convert hex data to string
+ *
+ * @param data Pointer to uint8_t array
+ * @param size Size of the array
+ * @return std::string
+ */
+std::string hexToString(const uint8_t *data, const size_t size)
+{
+    std::stringstream ss;
+
+    ss << std::hex << std::setfill('0');
+
+    for (size_t i = 0; i < size; i++)
+    {
+        ss << std::hex << std::setw(2) << static_cast<int>(data[i]);
+    }
+
+    return ss.str();
+}
+
 int main()
 {
     int server_reply = -1;
@@ -124,10 +150,10 @@ int main()
 #ifdef DEBUG
         print_hex(target.nti.nai.abtUid, target.nti.nai.szUidLen);
 #endif
-
         if (connection.connectToServer() == 0)
         {
-            connection.send(std::string((char *)target.nti.nai.abtUid));
+            connection.send(std::to_string(DEVICE_ACCESS_LEVEL) + "&" + DEVICE_NAME + "&" + hexToString(target.nti.nai.abtUid, target.nti.nai.szUidLen));
+
             server_reply = std::stoi(connection.recieve(MESSAGE_RECIEVE_LENGTH));
             // server_reply = isSecretCode(target.nti.nai.abtUid, target.nti.nai.szUidLen);
 
