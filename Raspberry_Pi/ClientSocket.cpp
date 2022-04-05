@@ -47,6 +47,7 @@ ClientSocket::~ClientSocket()
  */
 int ClientSocket::connectToServer()
 {
+    m_is_connected = false;
     m_socketfd = socket(AF_INET, SOCK_STREAM, 0); // create socket
 
     if (m_socketfd < 0)
