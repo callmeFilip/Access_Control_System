@@ -35,7 +35,6 @@ private:
     int writeValue() const;
 
 protected:
-    // TODO INIT GPIO CONSTRUCTOR AND DESTRUCTOR IN LOCK AND LED!!!
     GPIO(int gpio_number, IOManager &IO_manager);
     virtual ~GPIO() = 0; // pure destructor
 

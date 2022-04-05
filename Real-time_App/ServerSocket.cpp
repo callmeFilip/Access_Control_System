@@ -78,7 +78,7 @@ int ServerSocket::listen()
 #ifdef DEBUG
             log("Cannot bind client socket to new thread");
 #endif
-            delete temp_socket_addr; // TODO ?
+            delete temp_socket_addr;
             return 1;
         }
         else
