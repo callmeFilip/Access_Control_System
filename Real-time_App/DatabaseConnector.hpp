@@ -16,8 +16,6 @@ private:
     int validateEmployee(const std::string &card_code, const int access_level, std::string &card_uid);
     int writeAttempt(const std::string &card_uid, const std::string &device_name, const int status_code);
 
-    std::string hexToString(const uint8_t *data, const size_t size) const;
-
     int log(const std::string &msg) const;
 
 public:
