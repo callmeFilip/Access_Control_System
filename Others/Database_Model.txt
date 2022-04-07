@@ -3,9 +3,7 @@
 Check-in attempt table:
 attemp_id (int, pk)
 card_uid (int, fk)
-date (date)
-hour (int)
-minute (int)
+time(timestamp)
 device_name (string) (device that sent the checked-in data)
 status code (int) (statuses could be granted, denied, unknown card, etc..)
 
