@@ -1,0 +1,14 @@
+<!-- prettier-ignore -->
+{% extends "user_interface/base.html" %}
+{% block content %}
+<!-- Start body-->
+
+<h1>Manage Employees</h1>
+{% for employee in employees %}
+<h1>Employee: {{ employee.associated_name }}</h1>
+<p>{{ employee.associated_phone_number }}</p>
+<!-- prettier-ignore -->
+{% endfor %}
+
+<!-- End body-->
+{% endblock content%}

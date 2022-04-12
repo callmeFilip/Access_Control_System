@@ -1,0 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'user_interface/main.css' %}"
+    />
+
+    {% if title %}
+    <title>{{ title }}</title>
+    {% else %}
+    <title>Access Control System</title>
+    {% endif %}
+  </head>
+
+  <body>
+    <nav id="SideNavigation" class="sidenav">
+      <a href="{% url 'home-page' %}">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="86.159"
+          height="67"
+          viewBox="0 0 86.159 67"
+        >
+          <path
+            id="Icon_awesome-home"
+            data-name="Icon awesome-home"
+            d="M41.936,19.635,14.36,42.347V66.86a2.393,2.393,0,0,0,2.393,2.393l16.761-.043A2.393,2.393,0,0,0,35.9,66.817V52.5a2.393,2.393,0,0,1,2.393-2.393h9.572A2.393,2.393,0,0,1,50.254,52.5v14.3a2.393,2.393,0,0,0,2.393,2.4l16.755.046a2.393,2.393,0,0,0,2.393-2.393V42.331l-27.57-22.7A1.823,1.823,0,0,0,41.936,19.635ZM85.5,35.072l-12.5-10.307V4.048A1.8,1.8,0,0,0,71.2,2.254H62.821a1.8,1.8,0,0,0-1.795,1.795v10.86L47.635,3.891a7.179,7.179,0,0,0-9.124,0L.65,35.072A1.8,1.8,0,0,0,.411,37.6l3.814,4.637a1.795,1.795,0,0,0,2.529.244L41.936,13.5a1.823,1.823,0,0,1,2.288,0L79.408,42.48a1.8,1.8,0,0,0,2.528-.239L85.75,37.6a1.795,1.795,0,0,0-.254-2.532Z"
+            transform="translate(0.001 -2.254)"
+            fill="#fff"
+          />
+        </svg>
+      </a>
+    </nav>
+    <div id="main"> {% block content %} {% endblock %} </div>
+  </body>
+</html>
