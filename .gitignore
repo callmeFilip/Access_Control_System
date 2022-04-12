@@ -1,6 +1,6 @@
 *.drawio
 *.exe
 *.txt
-*/.vscode
 *.out
-/.vscode/*
+.vscode/
+__pycache__/
