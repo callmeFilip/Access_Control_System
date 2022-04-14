@@ -4,9 +4,8 @@
 <!-- Start body-->
 
 <h1>Manage Employees</h1>
-{% for employee in employees %}
-<h1>Employee: {{ employee.associated_name }}</h1>
-<p>{{ employee.associated_phone_number }}</p>
+{% for card in cards %}
+<h1>{{ card.associated_name }} {{card.associated_phone_number}} </h1>
 <!-- prettier-ignore -->
 {% endfor %}
 

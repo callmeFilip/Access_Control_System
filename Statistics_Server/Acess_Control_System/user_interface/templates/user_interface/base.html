@@ -37,6 +37,18 @@
         </svg>
       </a>
     </nav>
-    <div id="main"> {% block content %} {% endblock %} </div>
+
+    <div id="main" class="alert-{{ message.tags }}">
+      <!-- prettier-ignore -->
+      {% if messages %}
+      {% for message in messages %}
+
+      <div> {{ message }} </div>
+
+      <!-- prettier-ignore -->
+      {% endfor %}
+      {% endif %}
+      {% block content %} {% endblock %}
+    </div>
   </body>
 </html>

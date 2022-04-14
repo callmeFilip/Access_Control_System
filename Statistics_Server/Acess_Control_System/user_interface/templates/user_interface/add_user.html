@@ -4,6 +4,12 @@
 <!-- Start body-->
 
 <h1>Add Employee</h1>
-
+<form method="post">
+  {% csrf_token %} {{ add_user_form }}
+  <button type="submit">Submit</button>
+</form>
+<a href="{% url 'home-page' %}">
+  <input type="button" value="Back" />
+</a>
 <!-- End body-->
 {% endblock content%}
