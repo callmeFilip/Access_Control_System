@@ -4,10 +4,25 @@
 <!-- Start body-->
 
 <h1>Manage Employees</h1>
-{% for card in cards %}
-<h1>{{ card.associated_name }} {{card.associated_phone_number}} </h1>
-<!-- prettier-ignore -->
-{% endfor %}
+<div>
+  <table class="employees_table">
+    <tr>
+      <th>Checkbox</th>
+      <th>Name</th>
+      <th>Phone number</th>
+      <th>Add Remove</th>
+    </tr>
+    {% for card in cards %}
+    <tr>
+      <td>Checkbox</td>
+      <td>{{ card.associated_name }}</td>
+      <td>{{ card.associated_phone_number }}</td>
+      <td>Details</td>
+    </tr>
 
+    <!-- prettier-ignore -->
+    {% endfor %}
+  </table>
+</div>
 <!-- End body-->
 {% endblock content%}

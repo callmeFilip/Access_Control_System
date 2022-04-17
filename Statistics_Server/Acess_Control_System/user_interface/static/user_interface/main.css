@@ -13,12 +13,41 @@ body {
   overflow-x: hidden;
   padding-top: 2%;
 }
+
 .sidenav svg {
   margin: auto;
   width: 50%;
   display: block;
 }
 
+.employees_table {
+  margin: auto;
+  width: 90%;
+  background-color: white;
+  border: 1px solid #e3edf0;
+  border-collapse: collapse;
+  text-align: center;
+  box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 7%);
+}
+
+table.employees_table th,
+table.employees_table td {
+  border-bottom: 1px solid #e3edf0;
+  color: #2c376d;
+  font-size: 30px;
+  font-family: "Segoe UI";
+  font-weight: 600;
+  height: 65px;
+}
+
 #main {
   margin-left: 7%;
+  color: #2c376d;
+}
+
+#main h1 {
+  padding-left: 5%;
+  font-size: 40px;
+  font-family: "Segoe UI";
+  font-weight: 600;
 }
