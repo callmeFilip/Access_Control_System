@@ -51,3 +51,13 @@ table.employees_table td {
   font-family: "Segoe UI";
   font-weight: 600;
 }
+
+a:link {
+  color: #2c376d;
+  text-decoration: none;
+}
+
+a:visited {
+  color: #2c376d;
+  text-decoration: none;
+}
