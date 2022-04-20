@@ -7,17 +7,17 @@
 <div>
   <table class="employees_table">
     <tr>
-      <th>Checkbox</th>
       <th>Name</th>
       <th>Phone number</th>
-      <th>Add Remove</th>
+      <th><a href="{% url 'add-user-page' %}">Add</a></th>
     </tr>
     {% for card in cards %}
     <tr>
-      <td>Checkbox</td>
       <td>{{ card.associated_name }}</td>
       <td>{{ card.associated_phone_number }}</td>
-      <td>Details</td>
+      <td>
+        <a href="{% url 'employee-details-page' card.card_uid %}">Details</a>
+      </td>
     </tr>
 
     <!-- prettier-ignore -->
