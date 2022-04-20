@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.urls import reverse
 
 # Create your models here.
 
@@ -13,6 +14,9 @@ class Card(models.Model):
 
     def __str__(self):
         return str(self.card_code)
+
+    def get_absolute_url(self):
+        return reverse('employee-details-page', kwargs={'pk': self.pk})
 
     class Meta:
         db_table = 'card'
