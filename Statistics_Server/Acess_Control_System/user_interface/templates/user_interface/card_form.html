@@ -5,7 +5,7 @@
 
 <h1>Add Employee</h1>
 <form method="post">
-  {% csrf_token %} {{ add_user_form }}
+  {% csrf_token %} {{ form }}
   <button type="submit">Submit</button>
 </form>
 <a href="{% url 'home-page' %}">
