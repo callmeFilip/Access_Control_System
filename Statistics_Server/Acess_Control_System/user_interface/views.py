@@ -28,17 +28,45 @@ class EmployeeListView(ListView):
     context_object_name = 'cards'
     ordering = ['associated_name']
 
+def TestView(request, pk):    
+    context = {
+        'title': 'Details',
+        'object': Card.objects.filter(card_uid=pk).first()
+    }
+
+    if request.method == "POST":
+        date_form = DatesForm(request.POST)
+        print('Post request')
+        if date_form.is_valid():
+
+            start_date = date_form.cleaned_data['start_date']
+            end_date = date_form.cleaned_data['end_date']
+            context['check_attempts'] = Check_attempt.objects.filter(
+                card=Card.objects.filter(card_uid=pk).first().card_uid, time__gt=start_date, time__lt=end_date)
+        else:
+            print("Invalid Data")
+
+    else:
+        date_form = DatesForm()
+    
+    context['date_form'] = date_form
+
+
+    return render(request, "user_interface/employee.html", context)
 
 class EmployeeDetailView(FormMixin, DetailView):
     model = Card
     template_name = 'user_interface/employee.html'
     form_class = DatesForm
-
-
+   # def setup(request, *args, **kwargs):
+   #     print(kwargs['pk'])
+   #     return super().setup(request, args, kwargs)
+        
 """
     def get_success_url(self):
         return reverse('employee-details-page', kwargs={'pk': self.object.card_uid})
-
+"""
+"""
     def get_context_data(self, **kwargs):
         context = super(EmployeeDetailView, self).get_context_data(**kwargs)
 
