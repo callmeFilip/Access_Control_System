@@ -53,9 +53,10 @@ def EmployeeDetailView(request, pk):
             # get only the successful checks in a list
             successful_attempts = check_attempts.filter(status_code=1) # 1 - success
 
+
+            # calculate worktime
             if len(successful_attempts) >= 2:
                 work_time = (successful_attempts[1].time - successful_attempts[0].time)
-            
                 if (len(successful_attempts) % 2) is True:
                     for i in range(2, len(successful_attempts), 2):
                         work_time += (successful_attempts[i+1].time - successful_attempts[i].time)
@@ -64,7 +65,13 @@ def EmployeeDetailView(request, pk):
                         work_time += (successful_attempts[i+1].time - successful_attempts[i].time)
 
                 context['work_time_hours'] = math.floor(work_time.total_seconds() / 3600)
-                context['work_time_minutes'] = math.floor((work_time.total_seconds() / 60) - (context['work_time_hours'] * 60))
+                work_time_minutes = math.floor((work_time.total_seconds() / 60) - (context['work_time_hours'] * 60))
+
+                # format minutes
+                if work_time_minutes < 10:
+                    context['work_time_minutes'] = '0' + str(work_time_minutes)    
+                else:
+                    context['work_time_minutes'] = work_time_minutes
     else:
         date_form = DatesForm()
     

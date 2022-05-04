@@ -52,7 +52,6 @@ table.employees_table td {
 }
 
 a:link {
-  color: #2c376d;
   text-decoration: none;
 }
 
@@ -110,4 +109,63 @@ a:visited {
 
 #hours-min-text {
   font-size: 14pt;
+}
+
+.edit-btn {
+  padding-left: 4%;
+  padding-right: 4%;
+  padding-top: 1%;
+  padding-bottom: 1%;
+  background-color: #2c376d;
+  color: white;
+  border: 1px solid #e3edf0;
+  text-align: center;
+  border-radius: 10%;
+}
+
+.edit-btn:visited {
+  color: white;
+}
+
+.edit-btn:hover {
+  color: #2c376d;
+  background-color: #ebf5f8;
+  border: 1px solid #2c376d;
+}
+
+.remove-btn {
+  padding-left: 10%;
+  padding-right: 10%;
+  padding-top: 1%;
+  padding-bottom: 1%;
+  color: #2c376d;
+  background-color: #ebf5f8;
+  border: 1px solid #e3edf0;
+  border-radius: 10%;
+}
+
+.remove-btn:visited {
+  color: #2c376d;
+}
+
+.remove-btn:hover {
+  background-color: crimson;
+  color: white;
+}
+
+.close-btn {
+  padding: 1%;
+  color: #2c376d;
+  background-color: #ebf5f8;
+  border: 1px solid #e3edf0;
+  border-radius: 10%;
+}
+
+.close-btn:visited {
+  color: #2c376d;
+}
+
+.close-btn:hover {
+  background-color: #2c376d;
+  color: white;
 }

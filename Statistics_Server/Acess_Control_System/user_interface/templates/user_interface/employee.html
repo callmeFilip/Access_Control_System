@@ -24,6 +24,7 @@
     </a>
     <a class="close-btn" href="{% url 'home-page' %}">Close</a>
   </div>
+
   <div id="employee-worktime">
     <form method="post">
       {% csrf_token %}{{ date_form }}
