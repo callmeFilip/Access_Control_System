@@ -1,8 +1,7 @@
 from audioop import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from django.views.generic.edit import FormMixin
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.contrib import messages
 from matplotlib.style import context
 from requests import request
@@ -11,15 +10,16 @@ from .forms import DatesForm
 from django.urls import reverse
 from django.db.models.query import EmptyQuerySet
 
-# Create your views here.
 
 
+"""
 def home(request):
     context = {
         'title': 'Home',
         'cards': Card.objects.all(),
     }
     return render(request, 'user_interface/home.html', context)
+"""
 
 
 class EmployeeListView(ListView):
@@ -28,7 +28,8 @@ class EmployeeListView(ListView):
     context_object_name = 'cards'
     ordering = ['associated_name']
 
-def TestView(request, pk):    
+
+def EmployeeDetailView(request, pk):    
     context = {
         'title': 'Details',
         'object': Card.objects.filter(card_uid=pk).first()
@@ -36,24 +37,26 @@ def TestView(request, pk):
 
     if request.method == "POST":
         date_form = DatesForm(request.POST)
-        print('Post request')
-        if date_form.is_valid():
 
+        if date_form.is_valid():
             start_date = date_form.cleaned_data['start_date']
             end_date = date_form.cleaned_data['end_date']
-            context['check_attempts'] = Check_attempt.objects.filter(
-                card=Card.objects.filter(card_uid=pk).first().card_uid, time__gt=start_date, time__lt=end_date)
-        else:
-            print("Invalid Data")
+        
+            # get filtered check_attempts based on start_date and end_date for user with pk as id,
+            # then sort descending by name
+            context['check_attempts'] = reversed(Check_attempt.objects.filter(
+                card=Card.objects.filter(card_uid=pk).first().card_uid,
+                time__gt=start_date, time__lt=end_date))
 
     else:
         date_form = DatesForm()
     
     context['date_form'] = date_form
 
-
     return render(request, "user_interface/employee.html", context)
 
+
+"""
 class EmployeeDetailView(FormMixin, DetailView):
     model = Card
     template_name = 'user_interface/employee.html'
@@ -62,11 +65,9 @@ class EmployeeDetailView(FormMixin, DetailView):
    #     print(kwargs['pk'])
    #     return super().setup(request, args, kwargs)
         
-"""
     def get_success_url(self):
         return reverse('employee-details-page', kwargs={'pk': self.object.card_uid})
-"""
-"""
+
     def get_context_data(self, **kwargs):
         context = super(EmployeeDetailView, self).get_context_data(**kwargs)
 
@@ -172,6 +173,7 @@ class EmployeeDeleteView(DeleteView):
     success_url = '/'
 
 
+"""
 def add_user(request):
 
     if request.method == 'POST':
@@ -207,10 +209,13 @@ def add_user(request):
         'add_user_form': add_user_form
     }
     return render(request, 'user_interface/card_form.html', context)
+"""
 
 
+"""
 def details(request):
     context = {
         'title': 'Details'
     }
     return render(request, 'user_interface/details.html', context)
+"""
