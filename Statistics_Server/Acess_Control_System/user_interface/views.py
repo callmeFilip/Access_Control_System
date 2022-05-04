@@ -9,7 +9,7 @@ from .models import Card, Check_attempt
 from .forms import DatesForm
 from django.urls import reverse
 from django.db.models.query import EmptyQuerySet
-
+import math
 
 
 """
@@ -42,12 +42,29 @@ def EmployeeDetailView(request, pk):
             start_date = date_form.cleaned_data['start_date']
             end_date = date_form.cleaned_data['end_date']
         
-            # get filtered check_attempts based on start_date and end_date for user with pk as id,
-            # then sort descending by name
-            context['check_attempts'] = reversed(Check_attempt.objects.filter(
+            # filter all check_attempts based on start_date and end_date for user with pk as id
+            check_attempts = Check_attempt.objects.filter(
                 card=Card.objects.filter(card_uid=pk).first().card_uid,
-                time__gt=start_date, time__lt=end_date))
+                time__gt=start_date, time__lt=end_date)
 
+            # then sort descending by name and pass to context
+            context['check_attempts'] = reversed(check_attempts)
+
+            # get only the successful checks in a list
+            successful_attempts = check_attempts.filter(status_code=1) # 1 - success
+
+            if len(successful_attempts) >= 2:
+                work_time = (successful_attempts[1].time - successful_attempts[0].time)
+            
+                if (len(successful_attempts) % 2) is True:
+                    for i in range(2, len(successful_attempts), 2):
+                        work_time += (successful_attempts[i+1].time - successful_attempts[i].time)
+                else:
+                    for i in range(2, len(successful_attempts) - 1, 2):
+                        work_time += (successful_attempts[i+1].time - successful_attempts[i].time)
+
+                context['work_time_hours'] = math.floor(work_time.total_seconds() / 3600)
+                context['work_time_minutes'] = math.floor((work_time.total_seconds() / 60) - (context['work_time_hours'] * 60))
     else:
         date_form = DatesForm()
     
