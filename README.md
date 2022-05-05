@@ -18,6 +18,10 @@ Requirements:
         - Django 3.2.9
         - Python mysqlclient 2.1.0
 
+Running the database:
+    Import Database/Access_Control_System.sql to MySQL database with
+    name Access_Control_System
+
 Building automatically and running server module:
     Change the dbcon arguments to match the database configuration
     Change the build/debug scripts by replacing the path to mysql connector
