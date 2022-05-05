@@ -116,32 +116,32 @@ a:visited {
   padding-right: 4%;
   padding-top: 1%;
   padding-bottom: 1%;
-  background-color: #2c376d;
-  color: white;
+  color: #2c376d;
+  background-color: #ebf5f8;
   border: 1px solid #e3edf0;
   text-align: center;
-  border-radius: 10%;
+  border-radius: 5px;
+  margin-left: 2%;
 }
 
 .edit-btn:visited {
-  color: white;
+  color: #2c376d;
 }
 
 .edit-btn:hover {
-  color: #2c376d;
-  background-color: #ebf5f8;
-  border: 1px solid #2c376d;
+  background-color: #2c376d;
+  color: white;
 }
 
 .remove-btn {
-  padding-left: 10%;
-  padding-right: 10%;
+  padding-left: 4%;
+  padding-right: 4%;
   padding-top: 1%;
   padding-bottom: 1%;
   color: #2c376d;
   background-color: #ebf5f8;
   border: 1px solid #e3edf0;
-  border-radius: 10%;
+  border-radius: 5px;
 }
 
 .remove-btn:visited {
@@ -154,18 +154,89 @@ a:visited {
 }
 
 .close-btn {
-  padding: 1%;
-  color: #2c376d;
-  background-color: #ebf5f8;
+  padding-left: 10%;
+  padding-right: 10%;
+  padding-top: 1%;
+  padding-bottom: 1%;
+  background-color: #2c376d;
+  color: white;
   border: 1px solid #e3edf0;
-  border-radius: 10%;
+  text-align: center;
+  border-radius: 5px;
 }
 
 .close-btn:visited {
-  color: #2c376d;
+  color: white;
 }
 
 .close-btn:hover {
+  color: #2c376d;
+  background-color: #ebf5f8;
+  border: 1px solid #2c376d;
+}
+
+#id_start_date {
+  height: 35px;
+  font-size: 10pt;
+}
+
+#id_end_date {
+  height: auto;
+  font-size: 10pt;
+}
+
+#employee-worktime button {
+  color: #2c376d;
+  height: auto;
+  font-size: 10pt;
+}
+
+#card_form {
+  background-color: white;
+}
+
+#submit-employee-btn {
+  padding-left: 7%;
+  padding-right: 7%;
+  padding-top: 5px;
+  padding-bottom: 5px;
+
+  color: white;
+  background-color: #2c376d;
+
+  text-align: center;
+  font-size: 32pt;
+
+  border: 2px solid #2c376d;
+  border-radius: 5px;
+}
+
+#submit-employee-btn:hover {
+  background-color: white;
+  color: #2c376d;
+}
+
+#back-btn {
+  padding-left: 4%;
+  padding-right: 4%;
+  padding-top: 1%;
+  padding-bottom: 1%;
+
+  color: #2c376d;
+  background-color: #ebf5f8;
+
+  text-align: center;
+  font-size: 14pt;
+
+  border: 1px solid #e3edf0;
+  border-radius: 5px;
+}
+
+#back-btn:hover {
   background-color: #2c376d;
   color: white;
+}
+
+.form_grid_container {
+  display: grid;
 }
