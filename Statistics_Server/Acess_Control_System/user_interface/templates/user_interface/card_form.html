@@ -1,15 +1,55 @@
 <!-- prettier-ignore -->
 {% extends "user_interface/base.html" %}
 {% block content %}
+
 <!-- Start body-->
 
-<h1>Add Employee</h1>
-<form method="post">
-  {% csrf_token %} {{ form }}
-  <button type="submit">Submit</button>
-</form>
-<a href="{% url 'home-page' %}">
-  <input type="button" value="Back" />
-</a>
+<h1>{{title}} Employee</h1>
+
+<div id="card_form">
+  <div class="form_grid_container">
+    <form method="post">
+      {% csrf_token %}
+
+      {{ form.non_field_errors }}
+
+      <div class="form_grid_item">
+        {{ form.card_code.errors }}
+        <label for="card_code">Card Code</label>
+        {{ form.card_code }}
+      </div>
+
+      <div class="form_grid_item">
+        {{ form.associated_name.errors }}
+        <label for="card_code">Full Name</label>
+        {{ form.associated_name }}
+      </div>
+
+      <div class="form_grid_item">
+        {{ form.associated_phone_number.errors }}
+        {{ form.associated_phone_number.label_tag }}
+        {{ form.associated_phone_number }}
+      </div>
+
+      <div class="form_grid_item">
+        {{ form.granted_access_level.errors }}
+        {{ form.granted_access_level.label_tag }}
+        {{ form.granted_access_level }}
+      </div>
+
+      <div class="form_grid_item">
+        <button id="submit-employee-btn" type="submit">Submit</button>
+      </div>
+    </form>
+    <div class="form_grid_item">
+      <a href="{% url 'home-page' %}">
+        <button id="back-btn">Back</button>
+      </a>
+    </div>
+  </div>
+
+
+</div>
+
 <!-- End body-->
 {% endblock content%}
