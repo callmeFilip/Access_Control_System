@@ -16,13 +16,9 @@
     <h3>Access Level</h3>
     <h2>{{ object.granted_access_level }}</h2>
 
-    <a class="edit-btn" href="{% url 'employee-update-page' object.card_uid %}">
-      Edit
-    </a>
-    <a class="remove-btn" href="{% url 'employee-remove-page' object.card_uid %}">
-      Remove
-    </a>
     <a class="close-btn" href="{% url 'home-page' %}">Close</a>
+    <a class="edit-btn" href="{% url 'employee-update-page' object.card_uid %}">Edit</a>
+    <a class="remove-btn" href="{% url 'employee-remove-page' object.card_uid %}">Remove</a>
   </div>
 
   <div id="employee-worktime">
