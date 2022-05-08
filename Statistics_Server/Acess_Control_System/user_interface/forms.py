@@ -10,6 +10,6 @@ class AddUserForm(forms.Form):
 
 class DatesForm(forms.Form):
     start_date = forms.DateField(widget=forms.DateInput(
-        attrs={'placeholder': 'YYYY-MM-DD', 'required': 'required'}))
+        attrs={'placeholder': 'YYYY-MM-DD', 'required': 'required'}), label='')
     end_date = forms.DateField(widget=forms.DateInput(
-        attrs={'placeholder': 'YYYY-MM-DD', 'required': 'required'}))
+        attrs={'placeholder': 'YYYY-MM-DD', 'required': 'required'}), label='')

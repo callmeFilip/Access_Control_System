@@ -24,23 +24,23 @@ body {
   margin: auto;
   width: 90%;
   background-color: white;
+  text-align: center;
   border: 1px solid #e3edf0;
   border-collapse: collapse;
-  text-align: center;
   box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 7%);
 }
 
 table.employees_table th,
 table.employees_table td {
   border-bottom: 1px solid #e3edf0;
-  color: #2c376d;
   font-size: 30px;
-  font-family: "Segoe UI";
   font-weight: 600;
   height: 65px;
 }
 
 #main {
+  font-family: "Segoe UI";
+  font-weight: 600;
   margin-left: 7%;
   color: #2c376d;
 }
@@ -48,16 +48,195 @@ table.employees_table td {
 #main h1 {
   padding-left: 5%;
   font-size: 40px;
-  font-family: "Segoe UI";
   font-weight: 600;
 }
 
 a:link {
-  color: #2c376d;
   text-decoration: none;
 }
 
 a:visited {
   color: #2c376d;
   text-decoration: none;
+}
+
+#details-panel {
+  background-color: white;
+  width: 84%;
+  margin: auto;
+  display: grid;
+  grid-template-columns: auto auto auto;
+  margin: auto;
+  padding: 3%;
+  border: 1px solid #e3edf0;
+  border-collapse: collapse;
+  box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 7%);
+}
+
+#details-panel h3 {
+  margin: 0;
+  padding: 0;
+  font-weight: 600;
+}
+
+#details-panel h2 {
+  margin-top: -1%;
+  margin-bottom: 4%;
+  font-size: 40pt;
+  font-weight: 600;
+}
+
+#employee-worktime table {
+  font-size: 14pt;
+  text-align: center;
+  margin: auto;
+  width: 100%;
+  border: 1px solid #e3edf0;
+  border-collapse: collapse;
+  box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 7%);
+}
+
+#employee-worktime th,
+#employee-worktime td {
+  border-bottom: 1px solid #e3edf0;
+}
+
+#employee-worktime form {
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+}
+
+#hours-min-text {
+  font-size: 14pt;
+}
+
+.edit-btn {
+  padding-left: 4%;
+  padding-right: 4%;
+  padding-top: 1%;
+  padding-bottom: 1%;
+  color: #2c376d;
+  background-color: #ebf5f8;
+  border: 1px solid #e3edf0;
+  text-align: center;
+  border-radius: 5px;
+  margin-left: 2%;
+}
+
+.edit-btn:visited {
+  color: #2c376d;
+}
+
+.edit-btn:hover {
+  background-color: #2c376d;
+  color: white;
+}
+
+.remove-btn {
+  padding-left: 4%;
+  padding-right: 4%;
+  padding-top: 1%;
+  padding-bottom: 1%;
+  color: #2c376d;
+  background-color: #ebf5f8;
+  border: 1px solid #e3edf0;
+  border-radius: 5px;
+}
+
+.remove-btn:visited {
+  color: #2c376d;
+}
+
+.remove-btn:hover {
+  background-color: crimson;
+  color: white;
+}
+
+.close-btn {
+  padding-left: 10%;
+  padding-right: 10%;
+  padding-top: 1%;
+  padding-bottom: 1%;
+  background-color: #2c376d;
+  color: white;
+  border: 1px solid #e3edf0;
+  text-align: center;
+  border-radius: 5px;
+}
+
+.close-btn:visited {
+  color: white;
+}
+
+.close-btn:hover {
+  color: #2c376d;
+  background-color: #ebf5f8;
+  border: 1px solid #2c376d;
+}
+
+#id_start_date {
+  height: 35px;
+  font-size: 10pt;
+}
+
+#id_end_date {
+  height: auto;
+  font-size: 10pt;
+}
+
+#employee-worktime button {
+  color: #2c376d;
+  height: auto;
+  font-size: 10pt;
+}
+
+#card_form {
+  background-color: white;
+}
+
+#submit-employee-btn {
+  padding-left: 7%;
+  padding-right: 7%;
+  padding-top: 5px;
+  padding-bottom: 5px;
+
+  color: white;
+  background-color: #2c376d;
+
+  text-align: center;
+  font-size: 32pt;
+
+  border: 2px solid #2c376d;
+  border-radius: 5px;
+}
+
+#submit-employee-btn:hover {
+  background-color: white;
+  color: #2c376d;
+}
+
+#back-btn {
+  padding-left: 4%;
+  padding-right: 4%;
+  padding-top: 1%;
+  padding-bottom: 1%;
+
+  color: #2c376d;
+  background-color: #ebf5f8;
+
+  text-align: center;
+  font-size: 14pt;
+
+  border: 1px solid #e3edf0;
+  border-radius: 5px;
+}
+
+#back-btn:hover {
+  background-color: #2c376d;
+  color: white;
+}
+
+.form_grid_container {
+  display: grid;
 }

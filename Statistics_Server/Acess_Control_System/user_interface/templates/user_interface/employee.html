@@ -6,35 +6,59 @@
 <h1>Details</h1>
 
 <div id="details-panel">
-  <h3>Employee</h3>
-  <h2>{{ object.associated_name }}</h2>
-  <h3>Card Code</h3>
-  <h2>{{ object.card_code }}</h2>
-  <h3>Phone Number</h3>
-  <h2>{{ object.associated_phone_number }}</h2>
-  <h3>Access Level</h3>
-  <h2>{{ object.granted_access_level }}</h2>
+  <div id="employee-information">
+    <h3>Employee</h3>
+    <h2>{{ object.associated_name }}</h2>
+    <h3>Card Code</h3>
+    <h2>{{ object.card_code }}</h2>
+    <h3>Phone Number</h3>
+    <h2>{{ object.associated_phone_number }}</h2>
+    <h3>Access Level</h3>
+    <h2>{{ object.granted_access_level }}</h2>
 
-  <a class="edit-btn" href="{% url 'employee-update-page' object.card_uid %}">
-    Edit
-  </a>
-  <a class="remove-btn" href="{% url 'employee-remove-page' object.card_uid %}">
-    Remove
-  </a>
-  <a class="close-btn" href="{% url 'home-page' %}">Close</a>
+    <a class="close-btn" href="{% url 'home-page' %}">Close</a>
+    <a class="edit-btn" href="{% url 'employee-update-page' object.card_uid %}">Edit</a>
+    <a class="remove-btn" href="{% url 'employee-remove-page' object.card_uid %}">Remove</a>
+  </div>
+
+  <div id="employee-worktime">
+    <form method="post">
+      {% csrf_token %}{{ date_form }}
+      <button type="submit">Get attempts</button>
+    </form>
+
+    <h3>Total worktime:</h3>
+    {% if work_time_hours and work_time_minutes %}
+    <h2>{{work_time_hours}}:{{work_time_minutes}}<a id="hours-min-text">Hrs/Min</a>
+    </h2>
+    {% else %}
+    <h2>-</h2>
+    {% endif %}
+
+    <h3>Check-in attempts:</h3>
+    <table>
+      <tr>
+        <th>ID</th>
+        <th>Time</th>
+        <th>Device name</th>
+        <th>Code</th>
+      </tr>
+
+      {% for attempt in check_attempts %}
+      <tr>
+        <td>{{attempt.attempt_id}}</td>
+        <td>{{attempt.time}}</td>
+        <td>{{attempt.device_name}}</td>
+        <td>{{attempt.status_code}}</td>
+      </tr>
+      {% endfor %}
+
+    </table>
+  </div>
+
 </div>
-<div>
-  <form method="post">
-    {% csrf_token %}{{ date_form }}
-    <button type="submit">Get attempts</button>
-  </form>
-</div>
 
-{% for attempt in check_attempts %}
 
-<h1>{{attempt.time}}</h1>
-
-{% endfor %}
 
 <!-- {% for check_attempt in check_attempts%}
 
