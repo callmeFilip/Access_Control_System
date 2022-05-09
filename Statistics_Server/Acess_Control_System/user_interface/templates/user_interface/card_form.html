@@ -4,50 +4,52 @@
 
 <!-- Start body-->
 
-<h1>{{title}} Employee</h1>
-
 <div id="card_form">
-  <div class="form_grid_container">
+  <h1>{{title}} Employee</h1>
+  <div id="form_content">
     <form method="post">
-      {% csrf_token %}
+      <div class="form_grid_container">
+        {% csrf_token %}
 
-      {{ form.non_field_errors }}
+        {{ form.non_field_errors }}
 
-      <div class="form_grid_item">
-        {{ form.card_code.errors }}
-        <label for="card_code">Card Code</label>
-        {{ form.card_code }}
-      </div>
+        {% if form.card_code %}
+        <div class="form_grid_item_1">
+          {{ form.card_code.errors }}
+          <label for="card_code">Card Code</label>
+          {{ form.card_code }}
+        </div>
+        {% endif %}
 
-      <div class="form_grid_item">
-        {{ form.associated_name.errors }}
-        <label for="card_code">Full Name</label>
-        {{ form.associated_name }}
-      </div>
+        <div class="form_grid_item_2">
+          {{ form.associated_name.errors }}
+          <label for="card_code">Full Name</label>
+          {{ form.associated_name }}
+        </div>
 
-      <div class="form_grid_item">
-        {{ form.associated_phone_number.errors }}
-        {{ form.associated_phone_number.label_tag }}
-        {{ form.associated_phone_number }}
-      </div>
+        <div class="form_grid_item_3">
+          {{ form.associated_phone_number.errors }}
+          <label for="card_code">Phone number</label>
+          {{ form.associated_phone_number }}
+        </div>
 
-      <div class="form_grid_item">
-        {{ form.granted_access_level.errors }}
-        {{ form.granted_access_level.label_tag }}
-        {{ form.granted_access_level }}
-      </div>
+        <div class="form_grid_item_4">
+          {{ form.granted_access_level.errors }}
+          <label for="card_code">Access level</label>
+          {{ form.granted_access_level }}
+        </div>
 
-      <div class="form_grid_item">
-        <button id="submit-employee-btn" type="submit">Submit</button>
+        <div class="form_grid_item_5">
+          <button id="submit-employee-btn" type="submit">Submit</button>
+        </div>
+
       </div>
     </form>
-    <div class="form_grid_item">
-      <a href="{% url 'home-page' %}">
-        <button id="back-btn">Back</button>
-      </a>
-    </div>
-  </div>
 
+    <a href="{% url 'home-page' %}">
+      <button id="back-btn">Back</button>
+    </a>
+  </div>
 
 </div>
 

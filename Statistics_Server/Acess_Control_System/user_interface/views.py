@@ -169,7 +169,7 @@ class EmployeeCreateView(CreateView):
     def get_context_data(self, **kwargs):
         context = super(EmployeeCreateView, self).get_context_data(**kwargs)
 
-        context['title'] = 'Details'
+        context['title'] = 'Add'
 
         return context
 
@@ -187,7 +187,7 @@ class EmployeeUpdateView(UpdateView):
     def get_context_data(self, **kwargs):
         context = super(EmployeeUpdateView, self).get_context_data(**kwargs)
 
-        context['title'] = 'Update'
+        context['title'] = 'Edit'
 
         return context
 
