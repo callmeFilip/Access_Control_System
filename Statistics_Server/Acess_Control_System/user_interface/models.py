@@ -24,8 +24,8 @@ class Card(models.Model):
 
 class Check_attempt(models.Model):
     attempt_id = models.AutoField(primary_key=True)
-    card = models.ForeignKey(Card, db_column='card',
-                             on_delete=models.SET('deleted'))
+    card = models.ForeignKey(Card, db_column='card', null=True,
+                             on_delete=models.SET_NULL)
     device_name = models.CharField(max_length=40)
     status_code = models.IntegerField()
     time = models.DateTimeField(default=timezone.now)
