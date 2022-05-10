@@ -4,6 +4,7 @@
 #include <string>
 #include <sstream>
 #include <iomanip>
+#include <regex>
 
 #include "GPIO.hpp"
 #include "IOManager.hpp"
@@ -20,8 +21,6 @@ const int GPIO_LED_RED = 25;
 const int LOCK_TIME = 5; // seconds
 const int DELAY = 2;     // seconds
 
-#define SERVER_NAME "192.168.0.105"
-const int SERVER_PORT = 54321;
 const int MESSAGE_TRANSMIT_LENGTH = 64;
 const int MESSAGE_RECIEVE_LENGTH = 8;
 
@@ -51,9 +50,6 @@ const nfc_modulation nmMifare =
 };
 
 nfc_target target; // buffer device
-
-// Initialize TCP/IP connection
-ClientSocket connection(SERVER_NAME, SERVER_PORT, mng);
 
 void log(const std::string &msg)
 {
@@ -137,8 +133,21 @@ std::string hexToString(const uint8_t *data, const size_t size)
     return ss.str();
 }
 
-int main()
+int main(int argc, char* argv[])
 {
+    std::regex ip_regex("^(?:(?:2(?:[0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9])\\.){3}(?:(?:2([0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9]))$");
+    std::regex port_regex("^([0-9]{1,4}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])$");
+
+    if(argc != 3 || !std::regex_match(argv[1], ip_regex) || !std::regex_match(argv[2], port_regex))
+    {
+        std::cout << "Incorrect usage!\n";
+        std::cout << "Use as following: sudo ./a.out <IPv4> <Port>" << std::endl;
+        return 1;
+    }
+
+    // Initialize TCP/IP connection
+    ClientSocket connection(argv[1], std::stoi(std::string(argv[2])), mng);
+
     int server_reply = -1;
 
     red.setLed(HIGH); // System is initialized and ready
