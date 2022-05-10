@@ -204,7 +204,8 @@ class EmployeeUpdateView(UpdateView):
         if not (re.match(r'^\s*(?:\+?(\d{1,3}))?([-. (]*(\d{3})[-. )]*)?((\d{3})[-. ]*(\d{2,4})(?:[-.x ]*(\d+))?)\s*$', temp_card_associated_phone_number)):
             messages.error(self.request, 'Invalid phone number. Use phone format: +000 000 000 000 or equivalent')
             return super().form_invalid(form)
-
+# ^([A-Z][a-z]{2,34})\s([A-Z][a-z]{2,34})?\s([A-Z][a-z]{2,34})?$ 
+# Regex for name
         messages.success(self.request, f'Employee updated!')
         return super().form_valid(form)
 
