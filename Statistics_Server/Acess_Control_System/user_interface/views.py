@@ -153,20 +153,26 @@ class EmployeeCreateView(CreateView):
               'associated_phone_number', 'granted_access_level']
 
     def form_valid(self, form):  
-        # Check if card already exists
         temp_card_code = form.data['card_code']
         temp_card_associated_name = form.data['associated_name']
         temp_card_associated_phone_number = form.data['associated_phone_number']
         temp_card_granted_access_level = int(form.data['granted_access_level'])
 
+        # Validate input
+
+        if not (re.match(r'^[A-Z][a-z]{1,34}(\s[A-Z][a-z]{1,34})?(\s[A-Z][a-z]{1,34})?$', temp_card_associated_name)):
+            messages.error(self.request, 'Invalid name')
+            return super().form_invalid(form)
+
+        if not (re.match(r'^\s*(?:\+?(\d{1,3}))?([-. (]*(\d{3})[-. )]*)?((\d{3})[-. ]*(\d{2,4})(?:[-.x ]*(\d+))?)\s*$', temp_card_associated_phone_number)):
+            messages.error(self.request, 'Invalid phone number. Use phone format: +000 000 000 000 or equivalent')
+            return super().form_invalid(form)
+
         if(temp_card_granted_access_level < 0 or temp_card_granted_access_level > 10):
             messages.error(self.request, 'Invalid access level. Choose a value between 0 and 10!')
             return super().form_invalid(form)
-        
-        if(re.match('^(\+?\d{3})\s?(\d{3})\s?(\d{3})\s?(\d{3})$', temp_card_associated_phone_number)):
-            print('Invalid phone')
-            return super().form_invalid(form)
 
+        # Check if card already exists
 
         if Card.objects.filter(card_code=temp_card_code).exists():
             messages.error(
@@ -195,17 +201,21 @@ class EmployeeUpdateView(UpdateView):
         temp_card_associated_name = form.data['associated_name']
         temp_card_associated_phone_number = form.data['associated_phone_number']
         temp_card_granted_access_level = int(form.data['granted_access_level'])
+        
+        # Validate input
+
+        if not (re.match(r'^[A-Z][a-z]{1,34}(\s[A-Z][a-z]{1,34})?(\s[A-Z][a-z]{1,34})?$', temp_card_associated_name)):
+            messages.error(self.request, 'Invalid name')
+            return super().form_invalid(form)
+
+        if not (re.match(r'^\s*(?:\+?(\d{1,3}))?([-. (]*(\d{3})[-. )]*)?((\d{3})[-. ]*(\d{2,4})(?:[-.x ]*(\d+))?)\s*$', temp_card_associated_phone_number)):
+            messages.error(self.request, 'Invalid phone number. Use phone format: +000 000 000 000 or equivalent')
+            return super().form_invalid(form)
 
         if(temp_card_granted_access_level < 0 or temp_card_granted_access_level > 10):
             messages.error(self.request, 'Invalid access level. Choose a value between 0 and 10!')
             return super().form_invalid(form)
 
-        print(temp_card_associated_phone_number)
-        if not (re.match(r'^\s*(?:\+?(\d{1,3}))?([-. (]*(\d{3})[-. )]*)?((\d{3})[-. ]*(\d{2,4})(?:[-.x ]*(\d+))?)\s*$', temp_card_associated_phone_number)):
-            messages.error(self.request, 'Invalid phone number. Use phone format: +000 000 000 000 or equivalent')
-            return super().form_invalid(form)
-# ^([A-Z][a-z]{2,34})\s([A-Z][a-z]{2,34})?\s([A-Z][a-z]{2,34})?$ 
-# Regex for name
         messages.success(self.request, f'Employee updated!')
         return super().form_valid(form)
 
