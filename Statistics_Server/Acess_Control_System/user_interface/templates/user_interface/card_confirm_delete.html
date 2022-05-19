@@ -3,17 +3,17 @@
 {% block content %}
 <!-- Start body-->
 
-<h1>Add Employee</h1>
-<form method="post">
-  {% csrf_token %}
-  <fieldset>
-    <legend>Delete employee</legend>
+<h1>Remove Employee</h1>
+
+<div id="delete_form">
+  <form method="post">
+    {% csrf_token %}
     <h2>
       Are you sure you want to delete employee "{{ object.associated_name }}"?
     </h2>
-  </fieldset>
-  <button type="submit">Delete</button>
-  <a href="{% url 'employee-details-page' object.card_uid %}">Cancel</a>
-</form>
+    <button id="confirm-remove-employee-btn" type="submit">Delete</button>
+    <a href="{% url 'employee-details-page' object.card_uid %}">Cancel</a>
+  </form>
+</div>
 <!-- End body-->
 {% endblock content%}
